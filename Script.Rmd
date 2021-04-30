@@ -1,0 +1,1514 @@
+---
+title: "Gesamtschau Schweiz bezüglich der Leistungsaufträge Rehabilitation nach Art. 39 Abs. 1 KVG"
+
+knit: (function(input_file, encoding) {
+  out_dir <- 'docs';
+  rmarkdown::render(input_file,
+ encoding=encoding,
+ output_file=file.path(dirname(input_file), out_dir, 'index.html'))})
+
+output: 
+  html_document:
+    toc: true
+    number_sections: true
+    toc_float:
+      toc_collapsed: true
+    toc_depth: 3
+    
+header-includes:
+  - \usepackage{titling}
+  - \pretitle{\begin{flushleft}}
+  - \posttitle{\end{flushleft}}
+---
+
+```{=html}
+<style type="text/css">
+
+body .main-container {
+max-width: 1600px;
+font-size: 13px;
+}
+
+body {text-align: justify} 
+
+h1.title {color: black; font-size: 34px}
+h1 {font-size: 24px; color: #d10000}
+h2 {font-size: 18px; color: #d10000}
+h3 {font-size: 16px; color: #d10000}
+h4 {font-size: 14px; color: #d10000}
+
+.list-group-item.active, .list-group-item.active:focus, .list-group-item.active:hover {
+z-index: 2;
+color: #fff;
+background-color: #d10000;
+border-color: #d10000;
+}
+
+ul.a {
+list-style-type: circle;
+}
+
+</style>
+```
+```{=html}
+<script>
+$(document).ready(function(){
+$('[data-toggle="popover"]').popover({html: true}); 
+});
+</script>
+```
+```{r setup, include=FALSE, echo = FALSE}
+
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+library(readxl)
+library(reactable)
+library(tippy)
+library(shiny)
+library(kableExtra)
+library(lubridate)
+library(timevis)
+library(gridExtra)
+
+
+# reactable options
+
+options(reactable.language = reactableLang(
+  pageSizeOptions = "Darstellen {rows}",
+  pageInfo = "Eintrag {rowStart} bis {rowEnd} von total {rows} Einträgen",
+  pagePrevious = "Zurück",
+  pageNext = "Weiter",
+  searchPlaceholder = "Suchen...",
+  noData = "Keine Einträge",
+))
+
+
+render.reactable.cell.with.tippy <- function(text, tooltip){
+  div(
+    style = "
+      text-decoration-style: dotted;
+      cursor: info;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      padding: 0.3rem 0.6rem;
+      box-sizing: content-box;
+      ",
+    tippy(text = text, tooltip = tooltip)
+  )
+}
+
+sticky_style <- list(position = "sticky", left = 0, background = "#fff", zIndex = 1,
+                     borderRight = "1px solid #eee")
+
+```
+
+<br/ >
+
+Copyright: <img src="https://www.swiss-reha.com/img/logo@2x.png?_1586340798000" alt="drawing" width="40"/>
+
+Erstellt durch: <img src="https://github.com/elronca/SWISS-Reha-report/raw/main/data/images/Schweizer-Paraplegiker-Forschung-de_cropped.svg" alt="drawing" width="100"/>
+
+# Einleitung
+
+Die Konferenz der [kantonalen Gesundheitsdirektorinnen und -direktoren (GDK)](https://www.gdk-cds.ch/de/ "Die Schweizerische Gesundheitsdirektorenkonferenz ist das politische Koordinationsorgan der Kantone in der Gesundheitspolitik") hat 1997 erstmals Empfehlungen zur Spitalplanung verabschiedet. Diese wurden 2002 revidiert und die entsprechenden Inhalte wurden 2009 an die neuen rechtlichen Gegebenheiten angepasst. Im Jahr 2010 entwickelte der Kanton Zürich für den Bereich Akutsomatik und zum Zweck der Spitalplanung eine Klassifikation der medizinischen Leistungen, nämlich die Spitalplanungs-Leistungsgruppensystematik (SPLG) für die Akutsomatik. Beim SPLG-Konzept handelt es sich um ein Klassifikationssystem, in welchem medizinische Leistungen zu SPLG zusammengefasst werden und welches für die leistungsorientierte Spitalplanung und die Formulierung von Leistungsaufträgen an die Spitäler verwendet wird. 2011 empfahl der Vorstand der GDK den kantonalen Gesundheitsdepartementen die Anwendung der SPLG für die Akutsomatik. Auch in der Rehabilitation gab und gibt es verschiedene durch die Kantone entwickelte SPLG-Systematiken. Am weitesten fortgeschritten ist die SPLG-Systematik des Projekts «Gemeinsame Spitalplanung Rehabilitation [GDK-Ost](https://www.gdk-cds.ch/de/die-gdk/fach-und-regionalkonferenzen "Gesundheitsdirektorenkonferenz der Ostschweizer Kantone") und Kanton Aargau». Die Kantone der GDK-Ost konnten dabei bei vielen SPLG ein gemeinsames Verständnis erzielen. Aufgrund [unterschiedlicher Vorstellungen](https://github.com/elronca/SWISS-Reha-report/raw/main/docs/Quellen/20190905_Information%20Projekt%20Gemeinsame%20Spitalplanung%20Rehabilitation%20GDK-Ost%20u.%20AG.pdf "Projekt «Gemeinsame Spitalplanung Rehabilitation GDK-Ost und Kanton Aargau» 5. September 2019") über die Abbildung der Rehabilitation von Querschnittlähmungen sowie der Schnittstelle zwischen Psychiatrie und Rehabilitation, wurde das SPLG-Modell für die Rehabilitation aber nicht einheitlich über alle beteiligten Kantone umgesetzt. Seitdem existieren verschiedene kantonale Varianten dieser Systematik. Da es für den Bereich stationäre Rehabilitation noch keine vergleichbar fortgeschrittene SPLG-Systematik wie in der Akutsomatik gibt, [empfiehlt die GDK aktuell noch keine rehabilitationsspezifische SPLG-Systematik als interkantonal anwendbare Spitalplanungsgrundlage](https://www.gdk-cds.ch/fileadmin/docs/public/gdk/themen/spitalplanung/EM_SPLG-Systematik_20180525_def_d.pdf "Anwendung einer Spitalleistungsgruppensystematik im Rahmen der kantonalen Spitalplanung").
+
+## Ziel des Berichts
+
+In der Rehabilitation herrscht zurzeit ein Flickwerk aus kantonalen SPLG-Systematiken und den damit verbundenen SPLG-spezifischen Anforderungskriterien für die Aufnahme auf die Spitalliste. Durch die Erstellung einer Gesamtschau über die Spitalplanungen der Kantone hat dieser Bericht zum Ziel, kantonale SPLG-Systematiken und Anforderungskriterien abzubilden und zu vergleichen.
+
+Dabei sollen
+
+<ol type="a">
+
+<li>
+
+SPLG und Leistungsaufträge sämtlicher Kantone übersichtlich dargestellt werden.
+
+</li>
+
+<li>
+
+Unterschiede in der inhaltlichen Definition der SPLG zwischen den Kantonen identifiziert werden.
+
+</li>
+
+<li>
+
+Unterschiede in den SPLG-spezifischen Anforderungen zwischen den Kantonen analysiert werden.
+
+</li>
+
+</ol>
+
+## Gesetzliche Grundlagen
+
+Nach [Art. 39 des Krankenversicherungsgesetzes (KVG)](https://www.admin.ch/opc/de/classified-compilation/19940073/index.html#a39 "Art. 39 Spitäler und andere Einrichtungen") sind die Kantone verpflichtet, eine Spitalplanung zu erstellen und die zur Tätigkeit und zu Lasten der obligatorischen Krankenpflegeversicherung (OKP) zugelassenen Anstalten oder Abteilungen in einer Spitalliste aufzuführen. Mit der Aufführung eines Leistungserbringers in der Spitalliste werden die Zulassung zur Tätigkeit zu Lasten der OKP sowie die Kostenübernahme durch Kantone und Krankenversicherer geregelt.
+
+Gemäss [Art. 25 KVG](https://www.fedlex.admin.ch/eli/cc/1995/1328_1328_1328/de#art_25 "Allgemeine Leistungen bei Krankheit") übernimmt die obligatorische Krankenpflegeversicherung die Kosten derjenigen Leistungen, die der Diagnose oder Behandlung einer Krankheit und ihrer Folgen dienen. Zu diesen Leistungen gehören auch die ärztlich durchgeführten oder angeordneten Massnahmen der medizinischen Rehabilitation. Demnach gelten Rehabilitationskliniken als Spitäler und müssen somit den gesetzlichen Anforderungen an Spitäler entsprechen und unterstehen der kantonalen Spitalplanung.
+
+Die Spitalplanung kann gemäss [Art. 58c Bst. b der Verordnung über die Krankenversicherung (KVV)](https://www.fedlex.admin.ch/eli/cc/1995/3867_3867_3867/de#art_58_c "Art der Planung") zur Sicherstellung der stationären Behandlung in Rehabilitationskliniken leistungsorientiert oder kapazitätsbezogen erfolgen. Leistungsorientierte Rehabilitation richtet sich an den erbrachten Leistungen (Behandlungen) und kapazitätsbezogene Rehabilitation richtet sich an den benötigten Kapazitäten (Betten) aus.
+
+Bei der Beurteilung und Auswahl des auf der Liste zu sichernden Angebots sollen die Kantone gemäss [Art. 58b KVV](https://www.fedlex.admin.ch/eli/cc/1995/3867_3867_3867/de#art_58_b "Art. 58b Versorgungsplanung") insbesondere die Wirtschaftlichkeit und Qualität der Leistungserbringung, den Zugang der Patientinnen und Patienten zur Behandlung innert nützlicher Frist sowie die Bereitschaft und Fähigkeit der Einrichtung zur Erfüllung der Leistungsaufträge berücksichtigen.
+
+# Spitalplanung der Kantone
+
+## Definitionen SPLG
+
+Mit Ausnahme von Obwalden, Genf und Waadt erfolgt die Rehabilitationsplanung in allen Kantonen leistungsorientiert. Der Kanton Obwalden [übernimmt die vollen Kosten](https://www.ow.ch/dl.php/de/5fdb5c42d073c/OW-1168388-v1-Referenztarife_2021.pdf "Schreiben: Referenztarife für Spitalleistungen per 1. Januar 2021 Kanton Obwalden") für eine Rehabilitationsbehandlung eines Listenspitals [eines anderen Kantons], sofern diese medizinisch indiziert ist. Die Kantone Genf und Waadt führen Rehabilitationskliniken auf ihrer Spitalliste. Diese sind jedoch keiner SPLG zugeteilt. Die übrigen Kantone vergeben Leistungsaufträge innerhalb bestimmter SPLG.
+
+Die [untenstehende Tabelle](#übersicht-splg) bietet eine Übersicht über die von den Kantonen definierten SPLG. Grau gefärbte Zellen illustrieren, dass der jeweilige Kanton die SPLG nicht definiert hat. Die hochgestellte Zahl hinter dem SPLG-Namen in der linken Spalte wird verwendet, um auf die kantonal unterschiedliche Namensgebung der SPLG hinzuweisen. Sonderzeichen streichen SPLG-spezifische Abweichungen einzelner Kantone heraus. Bei den organspezifischen SPLG gibt es keine nennenswerten Unterschiede zwischen den Kantonen. Erwähnenswert ist hier, dass die von der SW!SS REHA genutzten Namen für die organspezifischen SPLG in zwei Fällen von jenen der Kantone abweichen. Die Neurorehabilitation wird in sämtlichen Kantonen neurologische Rehabilitation und die kardiale Rehabilitation kardiovaskuläre Rehabilitation genannt.
+
+Das unregelmässige grau-blaue Muster bei den nicht-organspezifischen SPLG zeigt, dass sich die kantonalen Definitionen der SPLG hier stark unterscheiden. Die SPLG *paraplegiologische Rehabilitation* heisst in den Kantonen Appenzell Ausserrhoden, Bern, Glarus, Graubünden, Luzern, Nidwalden, Schaffhausen, Schwyz, Zürich und Uri *Rehabilitation Querschnittgelähmter*, in den beiden Basel und Solothurn *Rehabilitation und Behandlung Querschnittgelähmter*, in den Kantonen Neuenburg und Tessin *Traumatische und nicht traumatische Querschnittsyndrome* und im Kanton Wallis *Paraplegiologische Rehabilitation und Rehabilitation grossflächiger Verbrennungen*. Interessanterweise heisst diese SPLG in den Bewerbungsunterlagen des Kantons Wallis, wie in den meisten anderen Kantonen, *Rehabilitation Querschnittgelähmter* und auch bei der Definition der SPLG deutet nichts auf die *grossflächigen Verbrennungen* hin. In den Kantonen Aargau, Appenzell Innerrhoden und Zug gibt es keine SPLG paraplegiologische Rehabilitation.
+
+Ob die unterschiedliche Namensgebung mit einer unterschiedlichen Definition der SPLG einhergeht, konnte für den vorliegenden Bericht nicht abschliessend geklärt werden. Die Kantone stellen dazu kaum öffentlich zugängliche Informationen zur Verfügung, weder in den Spitalplanungsberichten noch in separaten Dokumenten. Teilweise wurden die SPLG in kurzen Worten umschrieben, jedoch nicht in einer Weise, die genaue Rückschlüsse auf die Patientenpopulation zulassen würde. Einzig die Kantone Zürich und Bern publizieren eine Definition der SPLG inklusive der genauen Eingrenzung der SPLG mittels der ICD-10 Klassifizierung. Bei den Kantonen St. Gallen und Wallis war diese Information in den angefragten und zur Verfügung gestellten Bewerbungsunterlagen vorhanden. Die Definitionen der SPLG unterschieden sich nicht wesentlich zwischen den Kantonen, welche die Informationen zugänglich machten. Um sich ein genaueres Bild über die unterschiedlichen Definitionen verschaffen zu können, wären die Angaben aller Kantone notwendig.
+
+Unter kantonalen Besonderheiten sind zwei SPLG aufgelistet, die nur in einzelnen Kantonen existieren. Dies ist einerseits die vom Kanton Graubünden definierte *Dermatologische Rehabilitation* und andererseits die vom Kanton Thurgau definierte *Rehabilitative Intensivbehandlung (inkl. Teil- und Vollbeatmung)*. Auf der Webseite des Kantons Graubünden konnten keine Berichte zur Spitalplanung oder anderweitige Informationen gefunden werden, die Rückschlüsse auf die Definition dieser SPLG erlauben würden. Auch auf wiederholte Anfragen bezüglich der SPLG *Dermatologische Rehabilitation* und anderer Themen reagierte der Kanton nicht. Insgesamt wurde ein Leistungsauftrag innerhalb der SPLG *Dermatologische Rehabilitation* vergeben. Dieser ging an die **Hochgebirgsklinik Davos** wie der [Detailübersicht Leistungsaufträge](#detailübersicht-leistungsaufträge) entnommen werden kann. Mehr Information stellt der Kanton Thurgau zur SPLG *Rehabilitative Intensivbehandlung (inkl. Teil- und Vollbeatmung)* auf Anfrage zur Verfügung. Es handelt sich dabei um "Diagnosen aus dem Spektrum Neurologie, Neurochirurgie, Neurotraumatologie (Neuro Überwachungspflichtig Level 2)".
+
+Die kantonal unterschiedlichen Definitionen der SPLG führen zu Problemen bei der Bestimmung der Tarife für Behandlungen innerhalb einer SPLG, die im Behandlungs- nicht aber im Standortkanton existiert. Der Kanton Thurgau verweist auf Seite 106 [seines Spitalberichts](https://gesundheit.tg.ch/public/upload/assets/40617/Spitalplanung%202012%20Versorgungs-%20und%20Strukturbericht.pdf "Kanton Thurgau Spitalplanung 2012 Versorgungs- und Strukturbericht mit Spitallisten ab 1. Januar 2012") darauf hin, dass "die Abgeltung [für Behandlungen innerhalb der SPLG *Rehabilitative Intensivbehandlung (inkl. Teil- und Vollbeatmung)*] zwischen den Tarifpartnern zu klären [ist]".
+
+## Kantonale SPLG {#übersicht-splg}
+
+```{r Tabelle: Übersicht über Spitalleistungsgruppen, echo=FALSE, message=FALSE}
+
+splg <- "data/Abbildung Leistungsgruppen.xlsx" %>% 
+  read_excel(sheet = 3, col_types = "text") %>% 
+  replace(is.na(.), "") %>% 
+  rename("BS<br>BL" = "BS\\BL")
+
+x <- tibble(`†` = "TG: Keine eigene Leistungsgruppe. Nur als Zusatz in anderen Rehabilitationsbereichen. Es wurden auch keine Anforderungskriterien definiert.",
+            `††` = "NW: kein Leistungsauftrag für die Leistungsgruppe welche hier Rehabilitation Querschnittgelähmter heisst.",
+            `‡` = "SG: Beschränkt auf neurologische Frührehabilitation.",
+            `§` = "BE: Leistungsaufträge für Kinder und Jugendliche in muskuloskelettaler, neurologischer, paraplegiologischer, kardialer, pulmonaler, internistischer und onkologischer Rehabilitation.",
+            `¶` = "AG: Leistungsaufträge für Kinder und Jugendliche in muskuloskelettaler, neurologischer und pulmonaler Rehabilitation inkl. Frührehabilitation.",
+            `¥` = "FR: Aufgrund der Schwierigkeit, die Leistungen der psychosomatischen Rehabilitation einzuordnen, und mangels auswertbarer Daten wurde dieser Teilbereich der Psychiatrie zugeordnet.",
+            `€`= "Nur in Verbindung mit einem Leistungsauftrag in weiterführender Rehabilitation und beschränkt auf das jeweilige Leistungsspektrum der Leistungsaufträge in weiterführender Rehabilitation."
+)
+
+
+my_table <- kbl(splg, format = "html", escape = F)
+
+
+for(i in seq(2, 26)) {
+  
+  my_table <- column_spec(my_table, i, 
+                          
+                          color = case_when(splg[[i]] == "#" ~ "grey",
+                                            splg[[i]] == "" ~ "lightblue",
+                                            splg[[i]] == "##" ~ "grey",
+                                            splg[[i]] == "###" ~ "lightblue",
+                                            str_detect(splg[[i]], "[:lower:]") ~ "lightblue",
+                                            str_detect(splg[[i]], "†|‡|§|¶|¥|€") ~ "green",
+                                            TRUE ~ "#ffffff"),
+                          
+                          background = case_when(splg[[i]] == "#" ~ "grey", 
+                                                 splg[[i]] == "" ~ "lightblue",
+                                                 splg[[i]] == "##" ~ "grey",
+                                                 splg[[i]] == "###" ~ "lightblue",
+                                                 str_detect(splg[[i]], "[:lower:]") ~ "lightblue",
+                                                 str_detect(splg[[i]], "†|‡|§|¶|€") ~ "lightblue",
+                                                 str_detect(splg[[i]], "¥") ~ "grey",
+                                                 TRUE ~ "#ffffff"),
+                          
+                          popover = case_when(
+                            
+                            splg[[i]] == "†" ~ x$`†`,
+                            splg[[i]] == "‡" ~ x$`‡`,
+                            splg[[i]] == "§" ~ x$`§`,
+                            splg[[i]] == "¶" ~ x$`¶`,
+                            splg[[i]] == "††" ~ x$`††`,
+                            splg[[i]] == "¥" ~ x$`¥`,
+                            splg[[i]] == "€" ~ x$`€`,
+                            
+                            
+                            splg[[i]] == "#" ~ "Leistungsgruppe nicht definiert",
+                            splg[[i]] == "" ~ "Leistungsgruppe unter SW!SS REHA Namen vergeben",
+                            splg[[i]] == "##" ~ "Keine leistungs\U00ADorientierte Rehabilitation",
+                            splg[[i]] == "###" ~ "",
+                            
+                            splg[[i]] == "a" ~ "Heisst hier: Neurologische Rehabilitation",
+                            splg[[i]] == "b" ~ "Heisst hier: Pneumologische Rehabilitation",
+                            splg[[i]] == "c" ~ "Heisst hier: Kardiovaskuläre Rehabilitation",
+                            splg[[i]] == "d" ~ "Heisst hier: Rehabilitation Querschnittgelähmter",
+                            
+                            splg[[i]] == "e" ~ "Heisst hier: Rehabilitation und Behandlung Querschnittgelähmter",
+                            splg[[i]] == "g" ~ "Heisst hier: Traumatische und nicht traumat. Querschnittsyndrome",
+                            splg[[i]] == "f" ~ "Riabilitazione per para- e tetraplegici/ Réadaptation paraplégique et tétraplégique",
+                            splg[[i]] == "h" ~ "Paraplegiologische Rehabilitation und Rehabilitation grossflächiger Verbrennungen",
+                            splg[[i]] == "i" ~ "Heisst hier: Internistische Rehabilitation",
+                            splg[[i]] == "j" ~ "Heisst hier: Internistische und Onkologische Rehabilitation",
+                            splg[[i]] == "l" ~ "Heisst hier: Internistisch-postoperative Rehabilitation",
+                            splg[[i]] == "m" ~ "Heisst hier: Psychosomatisch-sozialmedizinische Rehabilitation",
+                            
+                            splg[[i]] == "o" ~ "Heisst hier: Rehabilitation Kinder und Jugendliche",
+                            splg[[i]] == "p" ~ "Pediatrica",
+                            
+                            TRUE ~ ""))
+  
+  
+}
+
+
+my_table %>% 
+  pack_rows("Organspezifisch", 1, 4) %>%
+  pack_rows("Nicht-organspezifisch", 5, 9) %>%
+  pack_rows("Kantonale Besonderheiten", 10, 11) %>%
+  pack_rows("Kinder und Jugendliche", 12, 14) %>% 
+  kable_styling(bootstrap_options = c("hover", "condensed"), font_size = 12, fixed_thead = TRUE) %>% 
+  footnote(
+    general_title = "\nAllgemeine Bemerkung\n", 
+    general = "Blaue Farbe bedeutet, dass die Leistungsgruppe im jeweiligen Kanton existiert, graue Farbe bedeutet, dass die Leistungsgruppe im Kanton nicht existiert.",
+    
+    number_title = "\nVon SW!SS REHA Namen abweichende Bezeichnung der SPLG\n", 
+    number = c("Heisst in allen Kantonen 'Neurologische Rehabilitation'",
+               "Heisst im TG 'Pneumologische Rehabilitation'. In der Beschreibung der SPLG heisst die pulmonale Rehabilitation dann allerdings wieder pulmonal.",
+               "Heisst in allen Kantonen 'Kardiovaskuläre Rehabilitation'.", 
+               "Heisst in den Kantonen AR, BE, GL, GR, LU, NW, SH, SZ, ZH, UR 'Rehabilitation Querschnittgelähmter, in den Kantonen BS/BL und SO 'Rehabilitation und Behandlung Querschnittgelähmter', in den
+               Kantonen NE und TI 'Traumatische und nicht tramatische Querschnittsyndrome' und im Kanton VS 'Paraplegiologische Rehabilitation und Rehabilitation grossflächer Verbrennungen'.",
+               "Heisst im AG 'Internistische Rehabilitation', in BE, JU und VS 'Internistische und Onkologische Rehabilitation' und in ZG 'Internistisch-postoperative Rehabilitation'.",
+               "Heisst in den Kantonen AI. AR, BS/BL, GL, LU, NW, SG, SH, SO, SZ, TI und ZH 'Psychosomatisch-sozialmedizinsche Rehabilition'.",
+               "Heisst in den Kantonen SH und UR 'Rehabilitation Kunder und Jugendliche'."),
+    
+    symbol_title = "\nSpezifizierungen\n", 
+    symbol_manual = c('†', "¥", '††', '‡', '§', '¶', '€'),
+    symbol = c("TG: Keine eigene Leistungsgruppe. Nur als Zusatz in anderen Rehabilitationsbereichen.",
+               "FR: Aufgrund der Schwierigkeit, die Leistungen der psychosomatischen Rehabilitation einzuordnen, und mangels auswertbarer Daten wurde dieser Teilbereich der Psychiatrie zugeordnet.",
+               "NW: kein Leistungsauftrag in der Leistungsgruppe Paraplegiologische Rehabilitation, welche hier 'Rehabilitation Querschnittgelähmter' genannt wird.",
+               "SG: Beschränkt auf neurologische Frührehabilitation.",
+               "BE: Leistungsaufträge für Kinder und Jugendliche in muskuloskelettaler, neurologischer, paraplegiologischer, kardialer, pulmonaler, internistischer und onkologischer Rehabilitation.",
+               "AG: Leistungsaufträge für Kinder und Jugendliche in muskuloskelettaler, neurologischer und pulmonaler Rehabilitation inkl. Frührehabilitation.",
+               'Nur in Verbindung mit einem Leistungsauftrag in weiterführender Rehabilitation und beschränkt auf das jeweilige Leistungsspektrum der Leistungsaufträge in weiterführender Rehabilitation.'))
+
+rm(x)
+
+```
+
+## Spitalplanung der Kantone
+
+Schon früh wurden die kantonal ungleichen Spitalplanungen als Problem erkannt und es gab verschiedene Bestrebungen, diese zu harmonisieren. So haben sich z.B. die Gesundheitsdirektoren der Nordwestschweizer Kantone Aargau, Solothurn, Basel-Stadt, Basel-Landschaft am 3. Februar 2010 auf eine [gemeinsame Erarbeitung der Grundlagen](http://docplayer.org/55159813-Spitalplanung-interkantonale-versorgungskriterien-der-kantone-aargau-basel-landschaft-basel-stadt-und-solothurn.html) für die leistungsorientierte Bedarfsplanung der stationären Versorgung ihrer Bevölkerung verständigt. Zu diesem Zweck sollte ein gemeinsamer Versorgungsbericht unter Berücksichtigung der Patientenströme und ein gemeinsamer Kriterienkatalog erarbeitet werden. Der gemeinsame Kriterienkatalog sollte u.a. für die Rehabilitation die Vorgaben des Bundes operationalisieren: Bedarfsgerechtigkeit; Wirtschaftlichkeit; Qualität; Zugang; Bereitschaft und Fähigkeit zur Erfüllung des Leistungsauftrags; Effizienz der Leistungserbringung; Nachweis der notwendigen Qualität; Mindestfallzahlen; Nutzung von Synergien; Pauschalpreise; Investitionssicherheit und -schutz.
+
+Der Kanton Aargau war auch dabei, als im Jahr 2016 der Kanton Zürich ein Projekt zur kantonsübergreifenden Rehabilitationsplanung der GDK-Ost-Kantone lancierte. Bereits im Jahr 2002 wurde an einer gemeinsamen Rehabilitationsplanung für die GDK-Ost-Kantone gearbeitet. Die Ergebnisse wurden von den meisten Kantonen als Basis für die kantonalen Rehabilitationsplanungen 2012 verwendet. Trotz einer gemeinsamen Arbeitsbasis unterschieden sich die kantonalen Planungen insbesondere betreffend SPLG und Anforderungskriterien. Das Projekt «gemeinsame Spitalplanung Rehabilitation GDK-Ost und Kanton Aargau» zielte auf eine Vereinheitlichung der SPLG-Systematik sowie der allgemeinen und SPLG-spezifischen Anforderungen an die Leistungserbringer hin [(Quelle: Spitalplanungsbericht Rehabilitation des Kantons St. Gallen S. 11)](https://www.sg.ch/gesundheit-soziales/gesundheit/gesundheitsversorgung--spitaeler-spitex/spitalplanung-spitalliste/_jcr_content/Par/sgch_accordion_list/AccordionListPar/sgch_accordion_1480912368/AccordionPar/sgch_downloadlist/DownloadListPar/sgch_download_1503861042.ocFile/Spitalplanung%20Rehabilitation.pdf). In ihrer Konferenz im April 2019 haben die Direktorinnen und Direktoren der Kantone der GDK-Ost [beschlossen](https://github.com/elronca/SWISS-Reha-report/raw/main/docs/Quellen/20190905_Information%20Projekt%20Gemeinsame%20Spitalplanung%20Rehabilitation%20GDK-Ost%20u.%20AG.pdf), das Projekt «Gemeinsame Rehabilitationsplanung GDK-Ost und Aargau» zu beenden. In 15 von 17 SPLG konnte ein gemeinsames Verständnis erzielt werden. Wegen unterschiedlicher Vorstellungen über die Abbildung der Rehabilitation von Querschnittlähmungen sowie der Schnittstelle zwischen Psychiatrie und Rehabilitation, liess sich das neue SPLG-Modell für die stationäre Rehabilitation aber nicht einheitlich über alle Kantone der GDK-Ost und des Kantons Aargau umsetzen. Abgesehen von diesen beiden strittigen Punkten erachteten die Kantone der GDK-Ost und der Kanton Aargau das von der Gesundheitsdirektion des Kantons Zürich erarbeitete neue SPLG-Modell jedoch als wichtige gemeinsame Basis für zukünftige Spitalplanungen. Die anderen Kantone der GDK-Ost und der Kanton Aargau behielten sich vor, sich in Koordination mit dem Kanton Zürich über das SPLG-Modell Rehabilitation und die dazugehörigen Qualitätsanforderungen auszutauschen.
+
+Nach der Beendigung des «Gemeinsame Rehabilitationsplanung GDK-Ost und Aargau»-Projekts haben die Kantone Appenzell Innerrhoden, Appenzell Ausserrhoden, St. Gallen, Glarus und Graubünden am 26. Februar 2020 eine [Absichtserklärung](https://www.ai.ch/themen/gesundheit-alter-und-soziales/spitallisten-und-spitalfinanzierung/dokumente/absichtserklarung-zusammenarbeit.pdf/download) zur "Zusammenarbeit in der Planung der stationären Gesundheitsversorgung" beschlossen. Dabei soll u.a. die Strukturqualität und die Ergebnisqualität der Gesundheitsversorgung in der Region gesichert werden, die Konzentration von Gesundheitseinrichtungen auf einzelne Kantone vermieden werden, sowie eine gemeinsame Bedarfsanalyse durchgeführt werden. Weiter soll die koordinierte Planung eine gemeinsame Erarbeitung und Anwendung von einheitlichen, verbindlichen und transparenten Kriterien für die Aufnahme auf die Spitalliste und die Vergabe von Leistungsaufträgen (bspw. Mindestfallzahlen, Vorgaben zur Erreichbarkeit, Vorgaben an Ausbildungsplätzen etc.) sowie ein gemeinsamer Strukturbericht umfassen. Obwohl die Rehabilitation im Bericht explizit erwähnt ist, befasst sich das "Modell Planung Ost" aktuell nur mit der Planung der Akutsomatik um die Chance auf einen gemeinsamen Erfolg zu erhöhen. Nach dieser Planung werden die Kantone diskutieren, ob sie auch für die Rehabilitation eine gemeinsame Spitalplanung/ Spitalliste angehen wollen.
+
+Die beiden Basel gehen mit einer [gemeinsamen Spitalplanung](https://www.chance-gesundheit.ch/) bei der Harmonisierung der Anforderungskriterien weiter als andere Kantone. Bereits heute [gilt die Spitalliste des Kantons Basel-Landschaft in Basel-Stadt](https://www.gesundheitsversorgung.bs.ch/dam/jcr:6f7ac51a-8f5f-410d-afce-a47f5bbb990a/Spitalliste_Anh%20I_Reha-detail_ab%202019.pdf) und [umgekehrt](https://www.baselland.ch/politik-und-behorden/direktionen/volkswirtschafts-und-gesundheitsdirektion/amt-fur-gesundheit/spitaler-und-therapieeinrichtungen/spitalversorgung/kantonale-spitalliste/anhang-zur-spitalliste/Spitalliste%20Reha%202018%202018-02-01.pdf/@@download/file/Spitalliste%20Reha%202018%202018-02-01.pdf). Die beiden Basel werden bei der nächsten Spitalplanung eine gemeinsame Spitalliste haben und zum ersten Mal auch ein Bewerbungsverfahren mit SPLG-spezifischen Anforderungskriterien durchführen, wobei noch nicht klar ist, welche SPLG-Systematik zur Anwendung kommen wird. Eine Übernahme der neuen Zürcher SPLG-Systematik (siehe nächster Abschnitt) ist jedoch gemäss Antwort aus dem Kantons Basel-Landschaft unwahrscheinlich. Auch der Kanton Appenzell Innerrhoden wird bei der nächsten Spitalplanung zum ersten Mal ein Bewerbungsverfahren durchführen. Der Kanton Luzern, der bei der Vergabe der Plätze auf der Spitalliste bisher eine [Anhörung der Spitäler](https://www.bag.admin.ch/dam/bag/de/dokumente/e-f/evalber-kuv/kvg-spitalf/2018-evaluation-spitallandschaft-schlussbericht.pdf.download.pdf/2018-schlussbericht-evaluation-spitallandschaft-d.pdf "Siehe Bericht S. 73") durchgeführt hat, hat noch nicht entschieden, ob er wie bisher verfährt oder zukünftig ebenfalls ein Bewerbungsverfahren durchführt.
+
+Im Rahmen der [Spitalplanung 2023](https://www.zh.ch/de/gesundheit/spitaeler-kliniken/spitalplanung/spitalplanung-2023.html#:~:text=Der%20Regierungsrat%20hat%20am%2010,und%20die%20Spitalplanung%202023%20mitzugestalten.) hat der Kanton Zürich sein SPLG-Modell [weiterentwickelt](https://www.zh.ch/content/dam/zhweb/bilder-dokumente/themen/gesundheit/gesundheitsversorgung/spitalplanung_2013/20200618_SPL2023_Informationsveranstaltung%20Rehabilitation_Pr%C3%A4sentation.pdf). Aus der Sicht des Kantons Zürich erfasst das aktuelle Zürcher SPLG-System die Leistungsspektren der Rehakliniken nur sehr grob, sodass Kliniken mit gleichem Leistungsauftrag unterschiedliche Patientengruppen behandeln. Weiter fehle ein klares Profil für die Rehabilitation und die Schnittstelle zwischen der Psychiatrie und der Rehabilitation sei unklar. Der [neue Versorgungsbericht](https://www.zh.ch/content/dam/zhweb/bilder-dokumente/themen/gesundheit/gesundheitsversorgung/spitaeler_kliniken/spitalplanung/spitalplanung-2023/versorgungsbericht_vernehmlassungsversion.pdf "Zürcher Spitalplanung 2023 - Versorgungsbericht - Januar 2021") ist aktuell in der [Vernehmlassung](https://www.zh.ch/de/news-uebersicht/medienmitteilungen/2021/02/spitalplanung-2023-versorgungsbericht-entwurf-geht-in-die-vernehmlassung.html). Das neue SPLG-Modell des Kantons Zürich wird sich in seinem Detaillierungsgrad stark von den übrigen Kantonen abheben. Es ist anzunehmen, dass die Anforderungen an die Rehakliniken verschärfen werden. So [äussert](https://www.sfgg.ch/wp-content/uploads/Stellungnahme-SFGG_D_20190626-8.pdf "Stellungnahme des Vorstands der Schweizerischen Fachgesellschaft für Geriatrie (SFGG) zur Spitalplanung Kanton Zürich 2022") sich z.B. die Schweizer Fachstelle für Geriatrie (SFGG) bereits kritisch zu neuen "Auflagen an den Betrieb von Einrichtungen" und zu "neuen Indikationskriterien".
+
+Wenn andere Kantone nicht mitziehen, werden sich die Unterschiede bezüglich der Definition der SPLG und SPLG-spezifischen Anforderungskriterien wieder vergrössern. Der Kanton Thurgau schreibt hierzu, dass "die Übernahme [der Züricher SPLG-Systematik] wesentlich von den nun operationalisierten SPLG und den Anforderungen insbesondere bezüglich der Mindestfallzahlen" abhinge. "Weiter wird im Unterschied zum Kanton Zürich an der Aufteilung des Leistungsbereichs Querschnittslähmungen in Erstrehabilitation und Folgerehabilitation gemäss dem Beschluss der GDK zur SPLG-Systematik von Mai 2019 festgehalten." Auch Appenzell Innerrhoden und Schaffhausen lassen noch offen, ob sie sich am Zürcher SPLG-Modell orientieren werden. Der Kanton St. Gallen teilt auf Anfrage mit, dass "eine weitere Überarbeitung der Spitalliste anhand der vom Kanton Zürich mit den Kantonen der GDK-Ost und mit dem Kanton Aargau erarbeiteten SPLG-Systematik vorgesehen" ist. Womöglich werde es geringfügige Abweichungen zur neuen SPLG-Systematik des Kantons Zürich geben. Die Kantone Schwyz und Zug teilen mit, dass sie für das Bewerbungsverfahren (weiterhin) die Zürcher Bewerbungsdatei (und damit die neue SPLG-Systematik und die Anforderungskriterien) verwenden werden. Ob der Kanton Bern, der seine SPLG-Systematik gerade erst überarbeitet hat, sich zukünftig am Kanton Zürich orientieren wird, ist fraglich. Es sieht also danach aus, dass sich die kantonalen Spitalplanungen in Rehabilitation in absehbarer Zeit nicht angleichen. Die unterschiedlichen Zeitpläne der kantonalen Spitalplanungen in der Rehabilitation dürfte eine Angleichung zwischen den Kantonen zusätzlich erschweren.
+
+## Termine Spitalplanung
+
+Die Daten zur Spitalplanung und Inkraftsetzung der neuen Spitalliste Rehabilitation wurden durch die Kantone unverbindlich angegeben und sind in den meisten Fällen vage.
+
+```{r Tabelle: Übersicht Daten Spitalplanung, echo=FALSE, message=FALSE, fig.width=4, fig.height=4, out.width="50%"}
+
+spitalplanung <- read_excel(path = "data/Termine_Spitalplanung.xlsx")
+
+spitalplanung <- spitalplanung %>% 
+  arrange(KT) %>% 
+  mutate(kommentar = replace_na(kommentar, ""),
+         kommentar = str_c("<span style='font-size:13px;'>", kommentar, "<span>")) %>% 
+  mutate(neue_spitalliste = dmy(neue_spitalliste),
+         letzter_versorgungsbericht = dmy(letzter_versorgungsbericht))
+
+
+tbl_spitalplanung <- reactable(spitalplanung,
+                               wrap = TRUE,
+                               resizable = TRUE,
+                               bordered = TRUE,
+                               pagination = FALSE, 
+                               sortable = TRUE,
+                               highlight = TRUE, 
+                               height = 300,
+                               style = list(fontSize = "12px"),
+                               
+                               columns = list(
+                                 
+                                 KT = colDef(maxWidth = 60,
+                                             name = "KT",
+                                             html = TRUE),
+                                 
+                                 letzter_versorgungsbericht = colDef(
+                                   name = "Versorgungs-<br>bericht",
+                                   maxWidth = 100,
+                                   html = TRUE),
+                                 
+                                 
+                                 neue_spitalliste = colDef(
+                                   name = "Nächste<br>Spitalliste",
+                                   maxWidth = 100,
+                                   html = TRUE),
+                                 
+                                 kommentar = colDef(
+                                   name = "Kommentar",
+                                   html = TRUE,
+                                   minWidth = 200)
+                               ),
+                               
+                               theme = reactableTheme(searchInputStyle = list(width = "100%"))
+)
+
+zeitstrahl <- spitalplanung %>%
+  select(KT, neue_spitalliste) %>% 
+  rename(content = KT, start = neue_spitalliste) %>% 
+  drop_na() %>% 
+  timevis(height = 350)
+
+HTML("<b><br>Detailübersicht Spitalplanung</b>")
+tbl_spitalplanung
+
+HTML("<b>Zeitstrahl nächste Spitalliste</b>")
+zeitstrahl
+
+```
+
+# Übersicht Leistungsaufträge
+
+Rehakliniken sind zur Tätigkeit zu Lasten der OKP zugelassen, wenn sie auf der Spitalliste des Kantons aufgeführt sind [(KVG Art. 39 Abs. 1, lit. e)](https://www.fedlex.admin.ch/eli/cc/1995/1328_1328_1328/de#art_39 "Spitäler und andere Einrichtungen"). Ein Leistungsauftrag enthält das ihm unter Auflagen und Bedingungen zugewiesene Leistungsspektrum und ist eine auf die Versorgungsplanung abgestützte, bedarfsorientierte Sicherung des Angebots eines Spitals. Die Kantone führen auf ihrer Spitalliste die inner- und ausserkantonalen Einrichtungen auf, die notwendig sind, um das [nach Art. 58b Abs.3](https://www.fedlex.admin.ch/eli/cc/1995/3867_3867_3867/de#art_58_b "Versorgungsplanung") bestimmte Angebot sicherzustellen. Nach [Art. 41a KVG](https://www.fedlex.admin.ch/eli/cc/1995/1328_1328_1328/de#art_41_a "Aufnahmepflicht der Listenspitäler") sind die Listenspitäler im Rahmen ihrer Leistungsaufträge und ihrer Kapazitäten verpflichtet, für alle versicherten Personen mit Wohnsitz im Standortkanton des Listenspitals eine Aufnahmebereitschaft zu gewährleisten, sofern sie von diesem auf die Spitalliste gesetzt worden sind (Aufnahmepflicht). Das Listenspital seinerseits hat einen gesetzlichen Anspruch gegenüber dem Versicherer und dem Kanton auf Vergütung gemäss [KVG (Art. 49a Abs. 1 und 2 KVG)](https://www.fedlex.admin.ch/eli/cc/1995/1328_1328_1328/de#art_49_a "Abgeltung der stationären Leistungen").
+
+## Detailübersicht Leistungsaufträge {#detailübersicht-leistungsaufträge}
+
+Die [untenstehende Tabelle](#abelle-eistungsaufträge) gibt einen Überblick über die aktuell vergebenen Leistungsaufträge aller Kantone. Angaben zur Benutzung der Tabelle finden sich in der Fussnote. Der Überblick fasst die Spitallisten aller Kantone zusammen, wobei in der Tabelle die SW!SS REHA-Bezeichnungen für die SPLG verwendet wurden (wie bereits zuvor bei der [Tabelle über die kantonalen SPLG](#übersicht-splg)). Gewisse Spitallisten sind nicht mehr ganz aktuell. Dies wurde in den spezifischen Fällen im Kommentarfeld vermerkt. So haben z.B. laut der Solothurner Spitalliste die Solothurner Spitäler bis Juni 2021 einen Leistungsauftrag in geriatrischer Rehabilitation. Auf Anfrage teilt das Gesundheitsamt Solothurn jedoch mit, dass dieser bereits 2019 an den Kanton zurückgegeben wurde. Die unter unspezifische Rehabilitation gelisteten Spitäler sind jene Spitäler mit Leistungsaufträgen der Kantone Genf und Waadt, welche Leistungsaufträge nicht nach SPLG gegliedert aufführen. Im Anschluss an die Detailübersicht über die knapp sechshundert Leistungsaufträge aller Kantone befinden sich weitere Tabellen mit Informationen zur Anzahl Leistungsaufträge pro Spital(standort) oder Spitalunternehmen, [generell](#generell) sowie stratifiziert nach [Kanton](#kanton) und/oder [SPLG](#splg). [Gemäss der GDK](https://www.gdk-cds.ch/fileadmin/docs/public/gdk/themen/spitalplanung/EM_Spitalplanung_totalrevidiert_20180525_def_d.pdf "Bericht: Empfehlungen der GDK zur Spitalplanung") ist ein Spital(standort) eine räumlich vernetzte, betriebliche und organisatorische Einheit zur Erbringung stationärer medizinischer Untersuchungen und Behandlungen. Zentral ist die räumliche Kontinuität in der Patientenversorgung. Ist diese räumliche Kontinuität nicht gegeben, ist der Betrieb als zwei (oder mehrere) Spitäler zu betrachten. Für diese gelten dann differenzierte Auflagen betreffend die Leistungserbringung, die notwendige Infrastruktur oder Weiteres. Spitäler im Sinne der Zulassungsbestimmung nach KVG können über eine eigene Rechtspersönlichkeit verfügen oder Teil einer grösseren Einheit wie beispielsweise einer Anstalt, einer Kapitalgesellschaft oder einer Verwaltungseinheit sein.
+
+## Tabelle Leistungsaufträge
+
+```{r Tabelle:  Übersicht über alle Leistungsaufträge, echo=FALSE, message=FALSE}
+
+la_table <- "data/Leistungsaufträge.xlsx" %>% 
+  excel_sheets() %>% 
+  set_names() %>% 
+  map(read_excel, path = "data/Leistungsaufträge.xlsx")
+
+la_table <- la_table %>% bind_rows(.id = "Leistungsgruppe")
+
+la_table <- rename(la_table,
+                   KT = Spitallistenkanton,
+                   Frühreha = Leistungsauftrag_Fruehreha,
+                   Spitalunternehmen = Trägerschaft) %>% 
+  
+  mutate(Leistungsgruppe = recode(Leistungsgruppe, 
+                                  "Neuroreha" = "Neuro-<br/>rehabilitation",
+                                  "Kardiale R." = "Kardiale<br/>Rehabilitation",
+                                  "Pulm R." = "Pulmonale<br/>Rehabilitation",
+                                  "Musk R." = "Muskuloskelettale<br/>Rehabilitation",
+                                  "Geriat R." = "Geriatrische<br/>Rehabilitation",
+                                  "Parapl R." = "Paraplegiologische<br/>Rehabilitation",
+                                  "Intern-onko R." = "Internistisch-<br/>onkologische<br/>Rehabilitation",
+                                  "Psychosom R." = "Psychosomatische<br/>Rehabilitation",
+                                  "Päd-Allg päd R." = "Allgemeine<br/>pädiatrische<br/>Rehabilitation",
+                                  "Päd-Neuroreha" = "Pädiatrische<br/>Neurorehabilitation",
+                                  "Frühreha isoliert" = "Frührehabilitation<br/>(isoliert)",
+                                  "Reha unspez" = "Unspezifsche<br/>Rehabilitation",
+                                  "Rehab Intensivbehandl." = "Rehabilitative<br/>Intensivbehandlung",
+                                  "Derm R" = "Dermatologische<br/>Rehabilitation"),
+         
+         Leistungsgruppe = fct_relevel(as.factor(Leistungsgruppe), c(
+           "Muskuloskelettale<br/>Rehabilitation",
+           "Neuro-<br/>rehabilitation",
+           "Pulmonale<br/>Rehabilitation",
+           "Kardiale<br/>Rehabilitation",
+           
+           "Paraplegiologische<br/>Rehabilitation",
+           "Internistisch-<br/>onkologische<br/>Rehabilitation",
+           "Psychosomatische<br/>Rehabilitation",
+           "Geriatrische<br/>Rehabilitation",
+           
+           "Frührehabilitation<br/>(isoliert)",
+           "Rehabilitative<br/>Intensivbehandlung",
+           "Dermatologische<br/>Rehabilitation",
+           "Unspezifsche<br/>Rehabilitation",
+           
+           "Allgemeine<br/>pädiatrische<br/>Rehabilitation",
+           "Pädiatrische<br/>Neurorehabilitation"
+         ))
+         
+  ) %>% 
+  
+  
+  mutate(Spital_standort = replace_na(Spital_standort, ""),
+         Frühreha = replace_na(Frühreha, ""),
+         Kommentar = replace_na(Kommentar, "")) %>% 
+  
+  mutate(Frühreha = if_else(Frühreha == "ja", Frühreha, "n.d.")) %>% 
+  
+  arrange(Leistungsgruppe, KT, Spitalunternehmen)
+
+
+render.reactable.cell.with.tippy <- function(text, tooltip){
+  div(
+    style = "
+      text-decoration-style: dotted;
+      cursor: info;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      padding: 0.3rem 0.6rem;
+      box-sizing: content-box;
+      ",
+    tippy(text = text, tooltip = tooltip)
+  )
+}
+
+sticky_style <- list(position = "sticky", left = 0, background = "#fff", zIndex = 1,
+                     borderRight = "1px solid #eee")
+
+la_table <- la_table %>% 
+  mutate(Kommentar = str_c("<span style='font-size:13px;'>", Kommentar, "<span>"))
+
+la_table_print <- reactable(la_table,
+                            wrap = FALSE,
+                            resizable = TRUE,
+                            bordered = TRUE,
+                            filterable = TRUE,
+                            pagination = FALSE, 
+                            sortable = FALSE,
+                            searchable = TRUE,
+                            highlight = TRUE, 
+                            height = 500,
+                            style = list(fontSize = "12px"),
+                            
+                            groupBy = c("Leistungsgruppe"),
+                            
+                            columns = list(
+                              
+                              Leistungsgruppe = colDef(
+                                name = "Spitaleistungsgruppe<br/>(SPLG)",
+                                style = sticky_style,
+                                headerStyle = sticky_style,
+                                maxWidth = 160,
+                                html = TRUE),
+                              
+                              KT = colDef(maxWidth = 60,
+                                          name = "KT",
+                                          html = TRUE),
+                              
+                              
+                              Spitalunternehmen = colDef(
+                                minWidth = 100,
+                                html = TRUE),
+                              
+                              
+                              Spital_standort = colDef(
+                                name = "Spital(standort)",
+                                minWidth = 100,
+                                html = TRUE),
+                              
+                              
+                              Standortkanton = colDef(maxWidth = 60,
+                                                      name = "Spital-<br/>KT",
+                                                      html = TRUE),
+                              
+                              
+                              Frühreha = colDef(maxWidth = 60,
+                                                name = "Früh-<br/>reha",
+                                                html = TRUE),
+                              
+                              
+                              Kommentar = colDef(
+                                html = TRUE,
+                                minWidth = 120,
+                                cell =  function(value, index, name) {
+                                  render.reactable.cell.with.tippy(text = value, tooltip = value)})
+                            ),
+                            
+                            theme = reactableTheme(searchInputStyle = list(width = "100%"))
+)
+
+la_table_print
+
+HTML(
+  '<div>
+<span style="font-weight:bold;font-size:8pt;">
+Abkürzung:
+</span>
+<span style="font-size:8pt;">
+n.d. = nicht definiert
+</span>
+</div>'
+)
+
+HTML(
+  '<div><p>
+<span style="font-weight:bold;font-size:8pt;">
+Hinweise zur Benutzung der Tabelle:
+</span>
+
+<span style="font-size:8pt;">
+Klickt man auf eine Leiststungsgruppe klappt sich diese auf und es erscheinen alle in dieser Leistungsgruppe vergebenen Leistungsaufträge. Bei grösseren Gruppen kann es ein paar Sekunden dauern bis dies geschieht. Die Zahl in Klammern steht für die Anzahl innerhalb einer Leistunggruppe vergebenen Leistungsaufträge. Einige Namen von Spitälern sind länger als die Spalten breit sind. Die Spalten können dann wie bei Excel mit der Maus verbreitert werden. Den ganzen Text einer Zelle der Spalte Kommentar wird sichtbar, wenn die Maus auf den Text gehalten wird. Die Suchfunktion funktioniert am besten bei zusammengeklappten Gruppen. Falls die Tabelle einfriert, sollte die Seite neu geladen werden (Unter Windows: Taste F5).
+</span>
+</p></div>'
+)
+
+
+```
+
+## Anzahl Leistungsaufträge
+
+```{r Berechnungen zur Quantifizierung von Leistungsaufträgen, echo=FALSE, message=FALSE, include=FALSE}
+
+## Do some calculations
+
+
+tabelle <- excel_sheets("data/Leistungsaufträge.xlsx") %>% 
+  set_names() %>% 
+  map(read_excel, path = "data/Leistungsaufträge.xlsx") %>% 
+  bind_rows(.id = "Leistungsgruppe") %>% 
+  rename(KT = Spitallistenkanton,
+         Frühreha = Leistungsauftrag_Fruehreha,
+         Spitalunternehmen = Trägerschaft)
+
+# Spitäler mit den meisten Leitungsaufträgen
+
+top_spital <- tabelle %>% 
+  count(Spital_standort) %>% 
+  arrange(desc(n))
+
+# Spitalunternehmen mit den meisten Leistungsaufträgen
+
+top_Unternehmen <- tabelle %>% 
+  count(Spitalunternehmen) %>% 
+  arrange(desc(n)) %>% 
+  mutate(Spitalunternehmen = str_remove_all(Spitalunternehmen, "\\[Stiftung\\]|\\[AG\\]|\\[öffentlich\\]|\\[Verein\\]|\\(Genossenschaft\\)"),
+         Spitalunternehmen = str_trim(Spitalunternehmen))
+
+# Spitäler mit Leistungsaufträgen in den meisten Kantonen
+top_spital_Kantone <- tabelle %>% 
+  count(KT, Spital_standort) %>% 
+  count(Spital_standort) %>% 
+  arrange(desc(n))
+
+
+# Spitalunternehmen mit den meisten Leistungsaufträgen in den unterschiedlichen Kantonen
+top_Unternehmen_Kantone <- tabelle %>% 
+  count(KT, Spitalunternehmen) %>% 
+  count(Spitalunternehmen) %>% 
+  arrange(desc(n)) %>% 
+  mutate(Spitalunternehmen = str_remove_all(Spitalunternehmen, "\\[Stiftung\\]|\\[AG\\]|\\[öffentlich\\]|\\[Verein\\]|\\(Genossenschaft\\)"),
+         Spitalunternehmen = str_trim(Spitalunternehmen))
+
+
+# Spitäler mit den meisten Leistungsaufträgen in unterschiedlichen Spitalleistungsgruppen
+top_spital_SPLG <- tabelle %>% 
+  count(Spital_standort, Leistungsgruppe) %>% 
+  count(Spital_standort) %>% 
+  arrange(desc(n)) %>% 
+  filter(!str_detect(Spital_standort, "Standorte|Selbstständig"))
+
+top_spital_SPLG %>% filter(n == 6) %>%  nrow()
+
+# Spitalunternhemen mit den meisten Leistungsaufträgen in unterschiedlichen Spitalleistungsgruppen
+top_Unternehmen_SPLG <- tabelle %>% 
+  count(Spitalunternehmen, Leistungsgruppe) %>% 
+  count(Spitalunternehmen) %>% 
+  arrange(desc(n)) %>% 
+  filter(!str_detect(Spitalunternehmen, "Standorte|Selbstständig"))
+
+
+res_ts <- top_spital %>%
+  mutate(n_cat = cut(n, breaks = c(0, 2, 10, 26), include.lowest = FALSE)) %>%
+  group_by(n_cat) %>%
+  summarise(n = n()) %>%
+  mutate(freq = n / sum(n))
+
+
+ein_Leistungsauftrag <- tabelle %>% 
+  count(KT, Spital_standort) %>% 
+  count(Spital_standort) %>% 
+  filter(n == 1) %>% 
+  filter(Spital_standort != "alle 4 Standorte?") %>% 
+  pull(Spital_standort) %>% 
+  sort()
+
+KT_spital_exclusiv <- tabelle %>% 
+  filter(Spital_standort %in% ein_Leistungsauftrag) %>% 
+  filter(Standortkanton != "mehrere") %>% 
+  arrange(KT) %>% 
+  distinct(KT, Spital_standort, .keep_all = FALSE) %>% 
+  count(KT) %>% 
+  arrange(desc(n))
+
+
+```
+
+### Generell {#generell .tabset .tabset-fade .tabset-pills}
+
+Die Hälfte (`r round(100*res_ts$freq, 0)[1]`%) aller Rehakliniken (`r nrow(top_spital)`) mit kantonalen Leistungsaufträgen halten lediglich einen oder zwei Leistungsaufträge. Der Anteil von Rehakliniken mit drei bis zehn Leistungsaufträgen liegt bei etwa einem Drittel (`r round(100*res_ts$freq, 0)[2]`%). Siebzehn Rehakliniken (`r round(100*res_ts$freq, 0)[3]`% aller Rehakliniken) haben mehr als zehn Leistungsaufträge. Die Spitäler mit den meisten Leistungsaufträgen sind die hochspezialisierten Kliniken **REHAB Basel**, **Schweizer Paraplegiker-Zentrum** und **Kinder-Reha Schweiz**. Die sechs Spitalunternehmen mit den meisten Leistungsaufträgen sind die **Kliniken Valens**, das **Luzerner Kantonsspital**, **ZURZACH Care**, die **Zürcher RehaZentren**, das **Freiburger Spital** und **VAMED**. Diese halten zusammen `r round(100*sum(top_Unternehmen[1:6,]$n) / sum(top_Unternehmen$n), 0)`% der knapp sechshundert vergebenen Leistungsaufträge. Die restlichen Leistungsaufträge verteilen sich auf sechzig weitere Spitalunternehmen.
+
+#### Spitäler {.unnumbered}
+
+```{r Tabelle: Spitäler mit den meisten Leitungsaufträgen, echo=FALSE, message=FALSE}
+
+top_spital %>%
+  rename(`Spital` = Spital_standort, `Leistungsaufträge` = n) %>% 
+  kbl(format = "html", escape = FALSE, booktabs = TRUE) %>%
+  add_header_above(header = c("Anzahl Leistungsaufträge je Spital" = 2), align = "l", underline = T) %>% 
+  scroll_box(height = "200px", width = "450px", fixed_thead = TRUE) %>% 
+  kable_styling(font_size = 12, position = "left")
+
+```
+
+#### Spitalunternehmen {.unnumbered}
+
+```{r Tabelle: Spitalunternehmen mit den meisten Leistungsaufträgen, echo=FALSE, message=FALSE}
+top_Unternehmen %>% 
+  rename(`Spitalunternehmen` = Spitalunternehmen, `Leistungsaufträge` = n) %>% 
+  kbl(format = "html", escape = FALSE, booktabs = TRUE) %>%
+  add_header_above(header = c("Anzahl Leistungsaufträge je Spitalunternehmen" = 2), align = "l", underline = T) %>% 
+  scroll_box(height = "200px", width = "450px", fixed_thead = TRUE) %>% 
+  kable_styling(font_size = 12, position = "left")
+
+```
+
+### In unterschiedlichen Kantonen {#kanton .tabset .tabset-fade .tabset-pills}
+
+Mit Leistungsaufträgen in fünfzehn Kantonen hat das **REHAB Basel** am meisten Leistungsaufträge in unterschiedlichen Kantonen. Viele der Leistungsaufträge sind jedoch auf bestimmte Patientengruppen wie Wachkomapatienten und schwer hirnverletzte oder querschnittgelähmte Personen beschränkt. Neben den Kliniken mit [generell](#generell) vielen Leistungsaufträgen haben auch die **Universitätsklinik Balgrist**, die **Rehaklinik Seewis**, das **Rehazentrum Valens**, die **Clinique romande de réadaption**, die **Klinik Bethesda**, die **Klinik Gais** und die **Rehaklinik Zihlschlacht** Leistungsaufträge in sechs oder mehr Kantonen. Der Kanton Waadt vergab Leistungsaufträge an zweiundzwanzig Rehakliniken, die in keinem anderen Kanton einen Leistungsauftrag erhielten. Mit grossem Abstand hinder dem Kanton Waadt folgen die Kantone **Bern**, **Wallis**, **Freiburg** und **Graubünden** mit der Vergabe von Leistungsaufträgen an neun, sechs, fünf und vier Spitäler, die über lediglich einen Leistungsauftrag verfügen.
+
+#### Spitäler {.unnumbered}
+
+```{r Tabelle: Spitäler mit Leistungsaufträgen in den meisten Kantonen, echo=FALSE, message=FALSE}
+
+top_spital_Kantone %>%
+  rename(`Spital` = Spital_standort, `Leistungsaufträge` = n) %>% 
+  kbl(format = "html", escape = FALSE, booktabs = TRUE) %>%
+  add_header_above(header = c("Anzahl Leistungsaufträge in unterschiedlichen Kantonen" = 2), align = "l", underline = T) %>% 
+  scroll_box(height = "200px", width = "450px", fixed_thead = TRUE) %>% 
+  kable_styling(font_size = 12, position = "left")
+
+htmltools::HTML('<div><span style="font-size:8pt;">Die Kantone BS/BL vergeben in dieser Auflistung zusammen einen Leistungsauftrag.</span></div>')
+
+```
+
+#### Spitalunternehmen {.unnumbered}
+
+```{r Tabelle: Spitalunternehmen mit Leistungsaufträgen in den meisten Kantonen, echo=FALSE, message=FALSE}
+
+top_Unternehmen_Kantone %>% 
+  rename(`Spitalunternehmen` = Spitalunternehmen, `Leistungsaufträge` = n) %>% 
+  kbl(format = "html", escape = FALSE, booktabs = TRUE) %>%
+  add_header_above(header = c("Anzahl Leistungsaufträge in unterschiedlichen Kantonen" = 2), align = "l", underline = T) %>% 
+  scroll_box(height = "200px", width = "450px", fixed_thead = TRUE) %>% 
+  kable_styling(font_size = 12, position = "left")
+
+htmltools::HTML('<div><span style="font-size:8pt;">Die Kantone BS/BL vergeben in dieser Auflistung zusammen einen Leistungsauftrag.</span></div>')
+
+```
+
+### In unterschiedlichen SPLG {#splg .tabset .tabset-fade .tabset-pills}
+
+Mit Leistungsaufträgen in insgesamt neun SPLG hält das **Schweizer Paraplegiker-Zentrum** die meisten Leistungsaufträge in unterschiedlichen SPLG. Diese Leistungsaufträge beschränken sich laut des [Spitalplanungsberichts des Kantons Luzern](https://gesundheit.lu.ch/-/media/Gesundheit/Dokumente/Gesundheitsversorgung/B21_Gesundheitsversorgung_Kanton_Luzern.pdf?la=de-CH "Planungsbericht des Regierungsrates an den Kantonsrat 20. Oktober 2015") jedoch primär auf die ganzheitliche Behandlung der Querschnittlähmungen. Die **Clinica Hildebrand** **Centro di riabilitazione Brissago** hält mit Leistungsaufträgen in sieben SPLG am zweitmeisten Leistungsaufträge in unterschiedlichen SPLG. Diesen Platz teilt sie mit dem Spital Wohlhusen. Die **Clinica Hildebrand** hält Leistungsaufträge in allen SPLG des Kantons Tessin mit Ausnahme der pädiatrischen und der internistisch-onkologischen Rehabilitation.
+
+Der Kanton Tessin ist der einzige Kanton mit der SPLG paraplegiologische Rehabilitation, welcher für diese SPLG weder einen Leistungsauftrag an das **REHAB Basel**, die **Universitätsklinik Balgrist**, die **Clinique romande de réadaptation** oder das **Schweizer Paraplegiker-Zentrum** vergeben hat. Insgesamt achtzehn Rehabilitationskliniken halten Leistungsaufträge in sechs verschiedenen SPLG. Fünf davon sind Standorte des **Freiburger Spitals**. Es ist anzunehmen, dass der Kanton Leistungsaufträge an das Unternehmen als Ganzes vergibt und die Standorte nicht separat evaluiert werden. Eine Anfrage diesbezüglich hat der Kanton Freiburg nicht beantwortet. Neben dem Spitalunternehmen **Clinica Hildebrand** haben die **Insel Gruppe**, die **Kliniken Valens**, das **Luzerner Kantonsspital**, die **VAMED AG**, die **Zürcher RehaZentren** und die **ZURZACH Care** (ehemals RehaClinic) ebenfalls Leistungsaufträge in sieben SPLG.
+
+#### Spitäler {.unnumbered}
+
+```{r Tabelle: Spitäler mit den meisten Leistungsaufträgen in unterschiedlichen Spitalleistungsgruppen, echo=FALSE, message=FALSE}
+
+top_spital_SPLG %>%
+  rename(`Spital` = Spital_standort, `Leistungsaufträge` = n) %>% 
+  kbl(format = "html", escape = FALSE, booktabs = TRUE) %>%
+  add_header_above(header = c("Anzahl Leistungsaufträge in unterschiedlichen SPLG" = 2), align = "l", underline = T) %>% 
+  scroll_box(height = "200px", width = "450px", fixed_thead = TRUE) %>% 
+  kable_styling(font_size = 12, position = "left")
+
+```
+
+#### Spitalunternehmen {.unnumbered}
+
+```{r Tabelle: Spitalunternehmen mit den meisten Leistungsaufträgen in unterschiedlichen Spitalleistungsgruppen, echo=FALSE, message=FALSE}
+
+top_Unternehmen_SPLG %>% 
+  rename(`Spitalunternehmen` = Spitalunternehmen, `Leistungsaufträge` = n) %>% 
+  kbl(format = "html", escape = FALSE, booktabs = TRUE) %>%
+  add_header_above(header = c("Anzahl Leistungsaufträge in unterschiedlichen SPLG" = 2), align = "l", underline = T) %>% 
+  scroll_box(height = "200px", width = "450px", fixed_thead = TRUE) %>% 
+  kable_styling(font_size = 12, position = "left")
+
+```
+
+# Anforderungskriterien
+
+Die Kantone stellen im Rahmen der gesundheitspolizeilichen Zulassung nach [Art. 39 Abs. 1 Bst. a--c KVG](https://www.fedlex.admin.ch/eli/cc/1995/1328_1328_1328/de#art_39 "Spitäler und andere Einrichtungen") sicher, dass die Anforderungen an eine qualitativ ausreichende und sichere Versorgung generell erfüllt sind. Einzelne Leistungen setzen jedoch spezifische Anforderungen voraus. Kantone können z.B. die Qualität betreffende Vorgaben und qualitätssichernde Massnahmen formulieren. Damit soll die Transparenz gefördert und der durch das KVG geforderte Qualitätswettbewerb zwischen den Leistungserbringern gestärkt werden. Im Rahmen der Erteilung von Leistungsaufträgen können die Kantone leistungsspezifische (SPLG-spezifische) Auflagen formulieren, die der Struktur- und Prozessqualität dienen. Dies sind z.B. die spezifischen Anforderungen an die Infrastruktur und die Personaldotation, die sich für die Erbringung bestimmter Leistungen stellen. Die Kantone können die Erteilung des jeweiligen leistungsbezogenen Auftrags von der Erfüllung dieser Anforderungen abhängig machen. Die Anforderungen bzw. Auflagen gelten pro Standort ([Quelle: Empfehlungen der GDK zur Spitalplanung](https://www.gdk-cds.ch/fileadmin/docs/public/gdk/themen/spitalplanung/EM_Spitalplanung_totalrevidiert_20180525_def_d.pdf "Kapitel 5 Qualität")).
+
+## Generelle Anforderungen
+
+Generelle Anforderungskriterien konnten im vorliegenden Bericht aus Ressourcengründen nicht evaluiert werden. Hierzu gibt es jedoch bereits eine [Analyse](https://www.bag.admin.ch/dam/bag/de/dokumente/e-f/evalber-kuv/kvg-spitalf/2018-evaluation-spitallandschaft-schlussbericht.pdf.download.pdf/2018-schlussbericht-evaluation-spitallandschaft-d.pdf "Evaluation der Auswirkungen der KVG-Revision auf die Spitallandschaft und die Sicherstellung der Versorgung: Schlussbericht 2018") der Firmen "econcept AG" und "LENZ Beratungen und Dienstleistungen AG" vom 20. Dezember 2018. Der Bericht wurde durch das Bundesamt für Gesundheit (BAG) [in Auftrag](https://www.bag.admin.ch/bag/de/home/das-bag/publikationen/evaluationsberichte/evalber-kuv/evalber-kvg-revision-spitfi/evalber-spitallandschaft-sicherstellung-versorgung.html "Evaluation KVG-Revision Spitalfinanzierung: Spitallandschaft und Sicherstellung der Versorgung") gegeben. Die Angaben zu den generellen Anforderungskriterien der Kantone finden sich im Anhang des Berichts auf Seite 77ff.
+
+## SPLG-spezifische Anforderungen
+
+Nur wenige Kantone publizieren die kompletten SPLG-spezifischen Anforderungen an die Listenspitäler. Es sind dies die Kantone Aargau, Bern, Neuenburg und Zürich. Die Kantone St. Gallen, Wallis und Jura stellten die Angaben auf Anfrage zur Verfügung. Bis auf die SPLG *Rehabilitative Intensivbehandlung (inkl. Teil- und Vollbeatmung)* publiziert auch der Kanton Thurgau all seine Anforderungskriterien. Die Anforderungen für die besagte SPLG wurden für diesen Bericht zur Verfügung gestellt. Andere Kantone publizieren einen Ausschnitt aus den SPLG-spezifischen Anforderungen in ihren Spitalplanungsberichten oder publizieren gar keinen Spitalbericht und damit auch keine Angaben zu SPLG-spezifischen Anforderungskriterien.
+
+Verschiedene Kantone gaben an, dass sie beim letzten Bewerbungsverfahren die Zürcher Bewerbungsdatei verwendet hatten. Diese Kantone übernehmen damit faktisch die Zürcher Anforderungskriterien. Dazu gehören die Kantone Appenzell Ausserrhoden, Appenzell Innerrhoden (für die innerkantonale Klinik im Hof), Schaffhausen, Schwyz, Tessin und Zug. Der Kanton Luzern führte kein Bewerbungsverfahren durch, stellt an die Listenspitäler jedoch dieselben Anforderungen wie der Kanton Zürich. Zusätzlich müssen die Listenspitaler des Kantons Luzern die Mindestfallzahlen erreichen, welche durch [SW!SS REHA](https://www.swiss-reha.com/de/stationaer.html) definiert worden sind. Für die Geriatrie (für welche Zürich bisher keine SPLG definiert hat) stützt sich der Kanton Luzern auf die Anforderungskriterien des Kantons Bern. Der Kanton Schaffhausen nennt keine spezifischen Anforderungskriterien an das Schaffhauser Kantonsspital, welches einen Leistungsauftrag in Geriatrie hat, sondern definiert die Eigenschaften der Patientenpopulation, welche erfüllt sein müssen, damit eine Person im Schaffhauser Kantonsspital geriatrisch rehabilitiert werden kann. Der Kanton Schaffhausen finalisiert aktuell den Versorgungsbericht 2030 in welchem die zukünftigen Anforderungskriterien definiert sein sollen. Die Kantone Obwalden, Solothurn, Uri und Glarus machen keine eigene Prüfung der Qualität, wenn das Spital auf der Spitalliste des Standortkantons gelistet ist. Der Kanton Glarus ist hier ein Spezialfall, weil dieser Standortkanton zweier Spitäler (**Rehaklinik Glarus** und **Rehaklinik Braunwald**) der **ZURZACH Care AG** ist. Der Kanton Glarus teilt auf Anfrage mit, dass "die Rehakliniken im Kanton Glarus beide über eine gesundheitspolizeiliche Betriebsbewilligung verfügen" und dass "die Evaluation für die Spitalplanung jedoch als ganze Gruppe" erfolge. Die beiden Kliniken werden durch den Kanton Glarus also nicht separat evaluiert. Es ist jedoch davon auszugehen, dass diese Kliniken durch den Kanton Schwyz, gemäss den Zürcher Kriterien, evaluiert werden, da die beiden Kliniken im Kanton Schwyz Leistungsaufträge haben. Die beiden Basler Kantone definierten bisher keine Anforderungskriterien. In den Leistungsvereinbarungen mit den Spitälern auf der Spitalliste wurde festgehalten, dass sich "die Häuser am Rahmen von DefReha und bei den Qualitätsindikatoren an SW!SS REHA" ausrichten müssen. Die Kantone Graubünden und Nidwalden stellen keine Informationen zur Spitalplanung bereit und reagierten auch nicht auf Anfragen diesbezüglich. Der Kanton Waadt, welcher bisher in der Rehabilitation keine SPLG definiert, befindet sich aktuell in der Spitalplanung Akutsomatik und wird sich zu einem späteren Zeitpunkt mit der Rehabilitation befassen. Auf die Frage, ob zukünftig leistungsorientiert geplant werden wird, antwortet die Dienststelle Gesundheitsversorgung des Kantons Waadt unverbindlich mit "Le canton de Vaud suivra le moment venu les recommandations de la CDS lorsqu'elles auront été définies". Bewerbungsunterlagen wurden durch den Kanton Waadt keine zur Verfügung gestellt. Der Kanton Genf, welcher ebenfalls keine nach SPLG gegliederte Spitalliste hat, liess eine Anfrage bezüglich der Bewerbungsunterlagen und zur Art der zukünftigen Spitalplanung unbeantwortet.
+
+Zusammengefasst lässt sich die Spitalplanung in Rehabilitation der Kantone grob in vier Gruppen unterteilen:
+
+**Kantone mit eigenen Anforderungskriterien**
+
+Zu dieser Gruppe zählen St. Gallen, Thurgau, Zürich, Aargau, Bern, Jura, Neuenburg, Freiburg und Wallis. Die Kantone dieser Gruppe könnte man nochmals in drei Subgruppen unterteilen. Die SPLG-spezifischen Anforderungskriterien von Zürich, St. Gallen, Thurgau und Aargau gehen auf [gemeinsam erarbeitete Kriterien](https://github.com/elronca/SWISS-Reha-report/raw/main/docs/Quellen/20190905_Information%20Projekt%20Gemeinsame%20Spitalplanung%20Rehabilitation%20GDK-Ost%20u.%20AG.pdf "Projekt «Gemeinsame Spitalplanung Rehabilitation GDK-Ost und Kanton Aargau»") zurück. Die Anforderungskriterien des Kantons St. Gallen decken sich grösstenteils mit jenen des Kantons Zürich. Wie den nachfolgenden Tabellen zu entnehmen ist, hat der Kanton St. Gallen die Kriterien des Kantons Zürich teilweise jedoch verschärft. So muss z.B. bei Notfällen der Facharzt schneller vor Ort sein und es wird öfter verlangt, dass die Diagnostik im Haus verfügbar ist, während diese in Zürich auch in Kooperation mit anderen Institutionen vorhanden sein kann. Der Kanton Thurgau stellt ebenfalls ähnliche Anforderungskriterien wie Zürich und St. Gallen, verschärft diese aber nochmals mit zusätzlichen Anforderungen. Aufgrund der gemeinsamen Planung könnte man auch den Kanton Aargau dieser Subgruppe zuteilen. Dieser hat jedoch wesentlich weniger Anforderungskriterien definiert und könnte deshalb auch mit dem Kanton Bern in eine zweite Subgruppe eingeteilt werden. Diese würde sich dadurch kennzeichnen, dass wesentlich weniger Anforderungskriterien definiert sind. Weil der Kanton Aargau um Unterschied zu den bereits erwähnten Kantonen Mindestfallzahlen definiert, könnte er auch der dritten Subgruppe mit Neuenburg, Freiburg und Wallis zugeteilt werden. Diese Kantone setzen wie der Kanton Aargau für fast alle SPLG Mindestfallzahlen voraus. Der Kanton Aargau unterscheidet sich in den restlichen Anforderungskriterien jedoch wesentlich von den drei Westschweizer Kantonen, deren Anforderungskriterien nahezu identisch sind. Der Kanton Jura definiert dieselben Anforderungskriterien wie Neuenburg, Freiburg und Wallis verzichtet jedoch auf Mindestfallzahlen.
+
+**Kantone, welche die Anforderungskriterien** **anderer Kantone übernehmen**
+
+Hierzu gehören die Kantone Appenzell Ausserrhoden, Appenzell Innerrhoden, Luzern, Schaffhausen, Schwyz, Tessin und Zug, welche entweder die Zürcher Bewerbungsdatei übernehmen oder sich stark daran orientieren. Den Kanton Luzern wendet wo möglich die Zürcher Anforderungskriterien an, entleiht für die Geriatrie jene aus Bern und übernimmt die SPLG-spezifischen Mindestfallzahlen der SW!SS REHA. Mit Ausnahme der Kantone Luzern und Tessin gehören dieser Gruppe bevölkerungsmässig eher kleinere Kantone an.
+
+**Kantone, welche sich auf die Prüfung der Spitalstandort-Kantone verlassen**
+
+Dazu gehören die Kantone Obwalden, Solothurn, Uri und Glarus. Auch diese Kantone sind eher klein und haben vermutlich nicht die Ressourcen eigene SPLG-spezifische Anforderungskriterien zu definieren.
+
+**Kantone, die schwierig einer Gruppe zugeteilt werden können**
+
+Basel-Stadt und Basel-Landschaft haben weder explizit eigene SPLG-spezifische Anforderungskriterien definiert noch Kriterien anderer Kantone übernommen. Bei der nächsten Spitalplanung werden jedoch eigene Kriterien vorhanden sein. Die Kantone Nidwalden und Graubünden publizieren keine Angaben zur Spitalplanung und waren auch nach wiederholten Anfragen nicht für eine Stellungnahme erreichbar. Die Kantone Genf und Waadt scheinen keine SPLG definiert zu haben. Genauere Stellungnahmen zur Frage, ob und wann sich dies ändert, waren von den beiden Kantonen nicht verfügbar.
+
+------------------------------------------------------------------------
+
+Nachfolgend werden die SPLG-spezifischen Anforderungskriterien der Kantone im Detail verglichen. Beim Kanton Zürich werden die bisherigen Anforderungskriterien verwendet, da sich die [neuen Kriterien der Spitalplanung 2023](https://www.zh.ch/content/dam/zhweb/bilder-dokumente/themen/gesundheit/gesundheitsversorgung/spitaeler_kliniken/spitalplanung/spitalplanung-2023/beilage_zum_versorgungsbericht.pdf) noch in der [Vernehmlassung](https://www.zh.ch/de/news-uebersicht/medienmitteilungen/2021/02/spitalplanung-2023-versorgungsbericht-entwurf-geht-in-die-vernehmlassung.html "Spitalplanung 2023 – Versorgungsbericht: Entwurf geht in die Vernehmlassung") befinden. Mit der Zürcher Spitalplanung 2023 nimmt die Anzahl der Anforderungskriterien pro SPLG tendenziell ab. Dies heisst aber nicht, dass die Anforderungen an die Rehabilitationskliniken herabgesetzt werden. Die bisherigen Anforderungskriterien wurden teils in die generellen Anforderungen ausgelagert (z.B. multiprofessioneller Behandlungsansatz) oder auf die neu definierten SPLG innerhalb eines Leistungsbereiches verteilt. Die bisherige SPLG muskuloskelettale Rehabilitation wird neu zu einem Leistungsbereich mit den SPLG *Allgemein Muskuloskelettal (MSK1)*, *Entzündliches Rheuma (MSK2)*, *Polytrauma ohne neurologische Verletzungen (MSK3), Amputationen (MSK4)* und *Verbrennungen (MSK5).* Zudem definiert der Kanton Zürich neu Mindestfallzahlen von Patientinnen und Patienten, die eine Rehabilitationsklinik pro Jahr in der betreffenden SPLG behandeln muss.
+
+Die Unterschiede zwischen den SPLG-spezfischen Anforderungen der Kantone werden in den untenstehenden Tabellen qualitativ dargestellt und quantitativ zusammengefasst. Die quantitataive Zusammenfassung basiert auf der Anzahl der kantonalen Anforderungskriterien. Weil dabei keine qualitative Beurteilung und Gewichtung der einzelnen Anforderungskriterien stattfand, lässt sich von der Zahl der Anforderungskriterien nicht direkt auf die höhe der Anforderungen an die Rehakliniken eines rückschliessen. Weiter baisert der Vergleich auf den Zürcher und St. Galler Kategorien/Kriterien, was diese Kantone tendenziell "bevorteilt".
+
+------------------------------------------------------------------------
+
+### Muskuloskelettale Reha
+
+```{r data musk, echo=FALSE, message=FALSE}
+
+musk <- read_excel("data/Anforderungen SPLG/qual_anf_musk_final.xlsx")
+
+musk_indikatoren <- musk %>% 
+  select(starts_with("Kant")) %>% 
+  map_dbl(~sum(is.na(.))) %>% 
+  {(nrow(musk)) - .}
+
+musk_n <- nrow(musk)
+
+table_musk <- musk %>% 
+  rename(`Kantone <span style="color:#0F05A0;">ZH</span>/<span style="color:#008334;">SG</span>/<span style="color:#0082C7;">LU</span>` = `Kantone ZH/SG/LU`) %>% 
+  reactable(wrap = TRUE, 
+            resizable = TRUE, 
+            bordered = TRUE, 
+            sortable = FALSE, 
+            pagination = FALSE, 
+            highlight = TRUE, 
+            searchable = TRUE,
+            height = 500, style = list(fontSize = "12px"),
+            
+            groupBy = c("Anforderung an", "Kategorie"),
+            
+            columns = list(
+              
+              `Anforderung an` = colDef(html = TRUE, minWidth = 190),
+              
+              Kategorie = colDef(html = TRUE, minWidth = 180),
+              
+              Subkategorie = colDef(html = TRUE, minWidth = 180),
+              
+              `Kantone <span style="color:#0F05A0;">ZH</span>/<span style="color:#008334;">SG</span>/<span style="color:#0082C7;">LU</span>` = colDef(
+                html = TRUE, 
+                minWidth = 180, 
+                style = list(color = "#0F05A0")),
+              
+              `Kanton Bern` = colDef(html = TRUE, minWidth = 180, style = list(color = "#E7423F")),
+              
+              `Kanton Thurgau` = colDef(html = TRUE, minWidth = 180, style = list(color = "#0EA84D")),
+              
+              `Kanton Aargau` = colDef(html = TRUE, minWidth = 180, style = list(color = "#248BCC")),
+              
+              `Kantone VS/NE/JU/FR` = colDef(html = TRUE, minWidth = 180),
+              
+              Bemerkung = colDef(html = TRUE)
+              
+            ),
+            
+            theme = reactableTheme(searchInputStyle = list(width = "100%"))
+  )
+
+```
+
+In der muskuloskeletalen Rehabilitation stellten die Kantone insgesamt `r musk_n` verschiedene Anforderungskriterien an die Rehakliniken. Am meisten Anforderungen stellte der Kanton Thurgau mit `r musk_indikatoren[["Kanton Thurgau"]]` Anforderungskriterien gefolgt vom Kanton Luzern mit `r musk_indikatoren[["Kantone ZH/SG/LU"]]` Anforderungskriterien und den Kantonen Zürich und St. Gallen mit `r musk_indikatoren[["Kantone ZH/SG/LU"]] - 1` Anforderungskriterien. Weniger Anforderungskriterien definiert haben die Kantone Neuenburg, Freiburg und Wallis mit insgesamt `r musk_indikatoren[["Kantone VS/NE/JU/FR"]]` verschiedenen Anforderungskriterien sowie der Kanton Jura mit `r musk_indikatoren[["Kantone VS/NE/JU/FR"]] - 1` Anforderungskriterien (Keine Mindestfallzahlen). Mit etwas Abstand folgen die Kantone Bern und Aargau mit `r musk_indikatoren[["Kanton Bern"]]` und `r musk_indikatoren[["Kanton Aargau"]]` Anforderungskriterien. Neben den Kantonen Luzern, Aargau, Neuenburg, Freiburg und Wallis wird zukünftig auch der Kanton Zürich eine Mindestfallzahl von Patienten festlegen, die eine Rehabilitationsklinik pro Jahr behandeln muss, um sich für einen Leistungsauftrag in der muskuloskelettalen Rehabilitation zu qualifizieren. Der Kanton Zürich legt diese Zahl für die allgemeine muskuloskelettale Rehabilitation (MSK1) auf 200 Patienten fest und spezifizert für spezialisierte Formen der muskuloskelettalen Rehabilitation (MSK2-5) weitere Werte.
+
+```{r table_musk, echo=FALSE, message=FALSE}
+
+table_musk
+
+HTML(
+  '<div>
+<span style="font-weight:bold;font-size:8pt;">
+Hinweise zur Tabelle:<br>
+</span>
+
+<span style="font-size:8pt;">
+<sup>1</sup> z.B. nach Bobath, Affolter, spez. Konzepte in Sensomotorik, Kinästhetik, Wahrnehmung und Dysphagiebehandlung.<br>
+<sup>2</sup> NF-Koffer bzw. -Wagen inkl. Defibrillator, die Bezeichnung "Stationen" steht für alle Bettenstationen und alle Behandlungseinheiten.<br>
+Diese Darstellung ist eine vereinfachte Abbildung der SPLG-spezifischen Anforderungen. Um einzelne Aspekte genau zu studieren müssen immer die Origninaldokumente der Kantone konsultiert werden.<br> In Spalten mit mehreren Kantonen können Unterschiede zwischen den Kantonen über das Suchfenster identifiziert werden. Im Falle von St. Gallen z.B. mittels der Eingabe von </span> <span style="font-weight:bold;font-size:8pt;">SG:</span> <span style="font-size:8pt;">.</span>
+</div>'
+)
+
+```
+
+------------------------------------------------------------------------
+
+### Neuroreha
+
+```{r data neuro, echo=FALSE, message=FALSE}
+
+neuro <- read_excel("data/Anforderungen SPLG/qual_anf_neuro_final.xlsx")
+
+neuro_indikatoren <- neuro %>% 
+  select(starts_with("Kant")) %>% 
+  map_dbl(~sum(is.na(.))) %>% 
+  {(nrow(neuro)) - .}
+
+neuro_n <- nrow(neuro)
+
+table_neuro <- neuro %>% 
+  rename(`Kantone <span style="color:#0F05A0;">ZH</span>/<span style="color:#008334;">SG</span>/<span style="color:#0082C7;">LU</span>` = `Kantone ZH/SG/LU`) %>% 
+  reactable(wrap = TRUE, 
+            resizable = TRUE, 
+            bordered = TRUE, 
+            sortable = FALSE, 
+            pagination = FALSE, 
+            highlight = TRUE, 
+            searchable = TRUE,
+            height = 500, style = list(fontSize = "12px"),
+            
+            groupBy = c("Anforderung an", "Kategorie"),
+            
+            columns = list(
+              
+              `Anforderung an` = colDef(html = TRUE, minWidth = 190),
+              
+              Kategorie = colDef(html = TRUE, minWidth = 180),
+              
+              Subkategorie = colDef(html = TRUE, minWidth = 180),
+              
+              `Kantone <span style="color:#0F05A0;">ZH</span>/<span style="color:#008334;">SG</span>/<span style="color:#0082C7;">LU</span>` = colDef(
+                html = TRUE, 
+                minWidth = 180, 
+                style = list(color = "#0F05A0")),
+              
+              `Kanton Bern` = colDef(html = TRUE, minWidth = 180, style = list(color = "#E7423F")),
+              
+              `Kanton Thurgau` = colDef(html = TRUE, minWidth = 180, style = list(color = "#0EA84D")),
+              
+              `Kanton Aargau` = colDef(html = TRUE, minWidth = 180, style = list(color = "#248BCC")),
+              
+              `Kantone VS/NE/JU/FR` = colDef(html = TRUE, minWidth = 180),
+              
+              Bemerkung = colDef(html = TRUE)
+              
+            ),
+            
+            theme = reactableTheme(searchInputStyle = list(width = "100%"))
+  )
+
+```
+
+In der Neurorehabilitation stellten die Kantone insgesamt `r neuro_n` verschiedene Anforderungskriterien an die Rehakliniken. Am meisten Anforderungen stellte der Kanton Thurgau mit `r neuro_indikatoren[["Kanton Thurgau"]]` Anforderungskriterien gefolgt vom Kanton Luzern mit `r neuro_indikatoren[["Kantone ZH/SG/LU"]]` Anforderungskriterien und den Kantonen Zürich und St. Gallen mit `r neuro_indikatoren[["Kantone ZH/SG/LU"]] - 1` Anforderungskriterien. Weniger Anforderungskriterien definiert haben die Kantone Wallis, Neuenburg und Freiburg mit insgesamt `r neuro_indikatoren[["Kantone VS/NE/JU/FR"]]` verschiedenen Anforderungskriterien sowie Jura mit `r neuro_indikatoren[["Kantone VS/NE/JU/FR"]] -1` Anforderungskriterien (Keine Mindestfallzahlen). Mit etwas Abstand folgen die Kantone Bern und Aargau mit `r neuro_indikatoren[["Kanton Bern"]]` und `r neuro_indikatoren[["Kanton Aargau"]]` Anforderungskriterien. Neben den Kantonen Luzern, Aargau, Wallis, Neuenburg und Freiburg wird zukünftig auch der Kanton Zürich eine Mindestfallzahl von Patienten festlegen, die eine Rehabilitationsklinik pro Jahr behandeln muss, um sich für einen Leistungsauftrag in der Neurorehabilitation zu qualifizieren. Der Kanton Zürich legt diese Zahl für die allgemein neurologische Rehabilitation (NER1) auf 200 Patienten fest und spezifizert für spezialisierte Formen der Neurorehabilitation (NER2-6) weitere Werte.
+
+```{r table_neuro, echo=FALSE, message=FALSE}
+
+table_neuro
+
+HTML(
+  '<div>
+<span style="font-weight:bold;font-size:8pt;">
+Hinweise zur Tabelle:<br>
+</span>
+
+<span style="font-size:8pt;">
+<sup>1</sup> z.B. nach Bobath, Affolter, spez. Konzepte in Sensomotorik, Kinästhetik, Wahrnehmung und Dysphagiebehandlung.<br>
+<sup>2</sup> NF-Koffer bzw. -Wagen inkl. Defibrillator, die Bezeichnung "Stationen" steht für alle Bettenstationen und alle Behandlungseinheiten.<br>
+Diese Darstellung ist eine vereinfachte Abbildung der SPLG-spezifischen Anforderungen. Um einzelne Aspekte genau zu studieren müssen immer die Origninaldokumente der Kantone konsultiert werden.<br> In Spalten mit mehreren Kantonen können Unterschiede zwischen den Kantonen über das Suchfenster identifiziert werden. Im Falle von St. Gallen z.B. mittels der Eingabe von </span> <span style="font-weight:bold;font-size:8pt;">SG:</span> <span style="font-size:8pt;">.</span>
+</div>'
+)
+
+```
+
+------------------------------------------------------------------------
+
+### Pulmonale Reha
+
+```{r data pulmo, echo=FALSE, message=FALSE}
+
+pulmo <- read_excel("data/Anforderungen SPLG/qual_anf_pulmo_final.xlsx")
+
+pulmo_indikatoren <- pulmo %>% 
+  select(starts_with("Kant")) %>% 
+  map_dbl(~sum(is.na(.))) %>% 
+  {(nrow(pulmo)) - .}
+
+pulmo_n <- nrow(pulmo)
+
+table_pulmo <- pulmo %>% 
+  rename(`Kantone <span style="color:#0F05A0;">ZH</span>/<span style="color:#008334;">SG</span>/<span style="color:#0082C7;">LU</span>` = `Kantone ZH/SG/LU`) %>% 
+  reactable(wrap = TRUE, 
+            resizable = TRUE, 
+            bordered = TRUE, 
+            sortable = FALSE, 
+            pagination = FALSE, 
+            highlight = TRUE, 
+            searchable = TRUE,
+            height = 500, style = list(fontSize = "12px"),
+            
+            groupBy = c("Anforderung an", "Kategorie"),
+            
+            columns = list(
+              
+              `Anforderung an` = colDef(html = TRUE, minWidth = 190),
+              
+              Kategorie = colDef(html = TRUE, minWidth = 180),
+              
+              Subkategorie = colDef(html = TRUE, minWidth = 180),
+              
+              `Kantone <span style="color:#0F05A0;">ZH</span>/<span style="color:#008334;">SG</span>/<span style="color:#0082C7;">LU</span>` = colDef(
+                html = TRUE, 
+                minWidth = 180, 
+                style = list(color = "#0F05A0")),
+              
+              `Kanton Bern` = colDef(html = TRUE, minWidth = 180, style = list(color = "#E7423F")),
+              
+              `Kanton Thurgau` = colDef(html = TRUE, minWidth = 180, style = list(color = "#0EA84D")),
+              
+              `Kanton Aargau` = colDef(html = TRUE, minWidth = 180, style = list(color = "#248BCC")),
+              
+              `Kantone VS/NE/JU/FR` = colDef(html = TRUE, minWidth = 180),
+              
+              Bemerkung = colDef(html = TRUE)
+              
+            ),
+            
+            theme = reactableTheme(searchInputStyle = list(width = "100%"))
+  )
+
+```
+
+In der pulmonalen Rehabilitation stellten die Kantone insgesamt `r pulmo_n` verschiedene Anforderungskriterien an die Rehakliniken. Am meisten Anforderungen stellte der Kanton Luzern mit `r pulmo_indikatoren[["Kantone ZH/SG/LU"]]` Anforderungskriterien gefolgt von den Kantonen Zürich und St. Gallen mit `r pulmo_indikatoren[["Kantone ZH/SG/LU"]] - 1` Anforderungskriterien. Etwas weniger Anforderungskriterien stellte der Kanton Thurgau mit `r pulmo_indikatoren[["Kanton Thurgau"]]` Anforderungskriterien. Weniger Anforderungskriterien definiert haben die Kantone Wallis, Neuenburg und Freiburg mit `r pulmo_indikatoren[["Kantone VS/NE/JU/FR"]]` verschiedenen Anforderungskriterien sowie der Kanton Jura mit `r pulmo_indikatoren[["Kantone VS/NE/JU/FR"]] - 1` Anforderungskriterien (Keine Mindestfallzahlen). Mit etwas Abstand folgen der Kantone Bern mit `r pulmo_indikatoren[["Kanton Bern"]]` Anforderungskriterien und mit grossem Abstand der Kanton Aargau mit `r pulmo_indikatoren[["Kanton Aargau"]]` Anforderungskriterien. Neben den Kantonen Aargau, Wallis, Neuenburg und Freiburg wird zukünftig auch der Kanton Zürich eine Mindestfallzahl von Patienten festlegen, die eine Rehabilitationsklinik pro Jahr behandeln muss, um sich für einen Leistungsauftrag in der pulmonalen Rehabilitation zu qualifizieren. Der Kanton Zürich legt diese Zahl für die allgemein pulmonale Rehabilitation (PNR1) auf 200 Patienten fest und spezifizert für die pulmonale Hypertonie/Lungentransplantation (PNR2) eine Mindestfallzahl von 15 Patienten.
+
+```{r table_pulmo, echo=FALSE, message=FALSE}
+
+table_pulmo
+
+HTML(
+  '<div>
+<span style="font-weight:bold;font-size:8pt;">
+Hinweise zur Tabelle:<br>
+</span>
+
+<span style="font-size:8pt;">
+<sup>1</sup> NF-Koffer bzw. -Wagen inkl. Defibrillator, die Bezeichnung "Stationen" steht für alle Bettenstationen und alle Behandlungseinheiten.<br>
+Diese Darstellung ist eine vereinfachte Abbildung der SPLG-spezifischen Anforderungen. Um einzelne Aspekte genau zu studieren müssen immer die Origninaldokumente der Kantone konsultiert werden.<br> In Spalten mit mehreren Kantonen können Unterschiede zwischen den Kantonen über das Suchfenster identifiziert werden. Im Falle von St. Gallen z.B. mittels der Eingabe von </span> <span style="font-weight:bold;font-size:8pt;">SG:</span> <span style="font-size:8pt;">.</span>
+</div>'
+)
+
+
+
+```
+
+------------------------------------------------------------------------
+
+### Kardiale Reha
+
+```{r data kardial, echo=FALSE, message=FALSE}
+
+kardi <- read_excel("data/Anforderungen SPLG/qual_anf_kardio_final.xlsx")
+
+kardi_indikatoren <- kardi %>% 
+  select(starts_with("Kant")) %>% 
+  map_dbl(~sum(is.na(.))) %>% 
+  {(nrow(kardi)) - .}
+
+kardi_n <- nrow(kardi)
+
+table_kardi <- kardi %>% 
+  rename(`Kantone <span style="color:#0F05A0;">ZH</span>/<span style="color:#008334;">SG</span>/<span style="color:#0082C7;">LU</span>` = `Kantone ZH/SG/LU`) %>% 
+  reactable(wrap = TRUE, 
+            resizable = TRUE, 
+            bordered = TRUE, 
+            sortable = FALSE, 
+            pagination = FALSE, 
+            highlight = TRUE, 
+            searchable = TRUE,
+            height = 500, style = list(fontSize = "12px"),
+            
+            groupBy = c("Anforderung an", "Kategorie"),
+            
+            columns = list(
+              
+              `Anforderung an` = colDef(html = TRUE, minWidth = 190),
+              
+              Kategorie = colDef(html = TRUE, minWidth = 180),
+              
+              Subkategorie = colDef(html = TRUE, minWidth = 180),
+              
+              `Kantone <span style="color:#0F05A0;">ZH</span>/<span style="color:#008334;">SG</span>/<span style="color:#0082C7;">LU</span>` = colDef(
+                html = TRUE, 
+                minWidth = 180, 
+                style = list(color = "#0F05A0")),
+              
+              `Kanton Bern` = colDef(html = TRUE, minWidth = 180, style = list(color = "#E7423F")),
+              
+              `Kanton Thurgau` = colDef(html = TRUE, minWidth = 180, style = list(color = "#0EA84D")),
+              
+              `Kanton Aargau` = colDef(html = TRUE, minWidth = 180, style = list(color = "#248BCC")),
+              
+              `Kantone VS/NE/JU/FR` = colDef(html = TRUE, minWidth = 180),
+              
+              Bemerkung = colDef(html = TRUE)
+              
+            ),
+            
+            theme = reactableTheme(searchInputStyle = list(width = "100%"))
+  )
+
+```
+
+In der kardialen Rehabilitation stellten die Kantone insgesamt `r kardi_n` verschiedene Anforderungskriterien an die Rehakliniken. Am meisten Anforderungen stellte der Kanton Luzern mit `r kardi_indikatoren[["Kantone ZH/SG/LU"]]` Anforderungskriterien gefolgt von den Kantonen Zürich und St. Gallen mit `r kardi_indikatoren[["Kantone ZH/SG/LU"]] - 1` Anforderungskriterien. Etwas weniger Anforderungskriterien stellte der Kanton Thurgau mit `r kardi_indikatoren[["Kanton Thurgau"]]` Anforderungskriterien. Weniger Anforderungskriterien definiert haben die Kantone Wallis, Neuenburg und Freiburg mit insgesamt `r kardi_indikatoren[["Kantone VS/NE/JU/FR"]]` verschiedenen Anforderungskriterien sowie der Kanton Jura mit `r kardi_indikatoren[["Kantone VS/NE/JU/FR"]] - 1` Anforderungskriterien (Keine Mindestfallzahlen). Mit etwas Abstand folgen die Kantone Bern und Aargau mit `r kardi_indikatoren[["Kanton Bern"]]` und `r kardi_indikatoren[["Kanton Aargau"]]` Anforderungskriterien. Neben den Kantonen Aargau, Wallis, Neuenburg und Freiburg wird zukünftig auch der Kanton Zürich eine Mindestfallzahl von Patienten festlegen, die eine Rehabilitationsklinik pro Jahr behandeln muss, um sich für einen Leistungsauftrag in der kardiovaskuläre Rehabilitation zu qualifizieren. Der Kanton Zürich legt diese Zahl für die allgemein kardiovaskuläre Rehabilitation (RKA1) auf 200 Patienten fest und spezifizert für die kardiovaskuläre Rehabilitation nach Herztransplantationen/Kunstherz (RKA2) eine Mindestfallzahl von 10 Patienten.
+
+```{r table_kardi, echo=FALSE, message=FALSE}
+
+table_kardi
+
+HTML(
+  '<div>
+<span style="font-weight:bold;font-size:8pt;">
+Hinweise zur Tabelle:<br>
+</span>
+
+<span style="font-size:8pt;">
+<sup>1</sup> NF-Koffer bzw. -Wagen inkl. Defibrillator, die Bezeichnung "Stationen" steht für alle Bettenstationen und alle Behandlungseinheiten.<br>
+Diese Darstellung ist eine vereinfachte Abbildung der SPLG-spezifischen Anforderungen. Um einzelne Aspekte genau zu studieren müssen immer die Origninaldokumente der Kantone konsultiert werden.<br> In Spalten mit mehreren Kantonen können Unterschiede zwischen den Kantonen über das Suchfenster identifiziert werden. Im Falle von St. Gallen z.B. mittels der Eingabe von </span> <span style="font-weight:bold;font-size:8pt;">SG:</span> <span style="font-size:8pt;">.</span>
+</div>'
+)
+
+```
+
+------------------------------------------------------------------------
+
+### Paraplegiologische Reha
+
+```{r data para, echo=FALSE, message=FALSE}
+
+para <- read_excel("data/Anforderungen SPLG/qual_anf_para_final.xlsx")
+
+para_indikatoren <- para %>% 
+  select(starts_with("Kant")) %>% 
+  map_dbl(~sum(is.na(.))) %>% 
+  {(nrow(para)) - .}
+
+para_n <- nrow(para)
+
+table_para <- para %>% 
+  rename(`Kantone <span style="color:#0F05A0;">ZH</span>/<span style="color:#008334;">SG</span>/<span style="color:#0082C7;">LU</span>` = `Kantone ZH/SG/LU`) %>% 
+  reactable(wrap = TRUE, 
+            resizable = TRUE, 
+            bordered = TRUE, 
+            sortable = FALSE, 
+            pagination = FALSE, 
+            highlight = TRUE, 
+            searchable = TRUE,
+            height = 500, style = list(fontSize = "12px"),
+            
+            groupBy = c("Anforderung an", "Kategorie"),
+            
+            columns = list(
+              
+              `Anforderung an` = colDef(html = TRUE, minWidth = 190),
+              
+              Kategorie = colDef(html = TRUE, minWidth = 180),
+              
+              Subkategorie = colDef(html = TRUE, minWidth = 180),
+              
+              `Kantone <span style="color:#0F05A0;">ZH</span>/<span style="color:#008334;">SG</span>/<span style="color:#0082C7;">LU</span>` = colDef(
+                html = TRUE, 
+                minWidth = 180, 
+                style = list(color = "#0F05A0")),
+              
+              `Kanton Bern` = colDef(html = TRUE, minWidth = 180, style = list(color = "#E7423F")),
+              
+              `Kanton Thurgau` = colDef(html = TRUE, minWidth = 180, style = list(color = "#0EA84D")),
+              
+              `Kantone VS/NE/JU/FR` = colDef(html = TRUE, minWidth = 180),
+              
+              Bemerkung = colDef(html = TRUE)
+              
+            ),
+            
+            theme = reactableTheme(searchInputStyle = list(width = "100%"))
+  )
+
+```
+
+In der paraplegiologischen Rehabilitation stellten die Kantone insgesamt `r para_n` verschiedene Anforderungskriterien an die Rehakliniken. Am meisten Anforderungen stellte der Kanton Thurgau mit `r para_indikatoren[["Kanton Thurgau"]]` Anforderungskriterien gefolgt von Luzern (`r para_indikatoren[["Kantone ZH/SG/LU"]] - 1` Anforderungskriterien) und den Kantonen Zürich und St. Gallen mit `r para_indikatoren[["Kantone ZH/SG/LU"]] - 1` Anforderungskriterien. Etwas weniger Anforderungskriterien stellte die vier Westschweizer Kantone Wallis, Neuenburg, Freiburg und Jura mit `r para_indikatoren[["Kantone VS/NE/JU/FR"]]` Anforderungskriterien. Ein Spezialfall ist hier der Kanton Bern welcher die [SW!SS REHA Kriterien Paraplegiologische Rehabilitation](https://www.swiss-reha.com/api/rm/8P57Y3J8J28SFND) anwendet. Dies sind mehr als hundert Kriterien. Diese Kriterien beinhalten auch eine Mindestfallzahl von 250 Austritten oder 10'000 Pflegetagen. Diese Mindestfallzahl wendet auch der Kanton Luzern weshalb dieser ein Anforderungskriterium mehr hat als Zürich. Mit den neuen Anforderungskriterien der Spitalplanung 2023 ([Versorungsbericht in Vernehmlassung](https://www.zh.ch/content/dam/zhweb/bilder-dokumente/themen/gesundheit/gesundheitsversorgung/spitaeler_kliniken/spitalplanung/spitalplanung-2023/versorgungsbericht_vernehmlassungsversion.pdf)) wird auch der Kanton Zürich eine [Mindestfallzahl von 10'000 Pflegetagen für die paraplegiologische Rehabilitation (NER6)](https://www.zh.ch/content/dam/zhweb/bilder-dokumente/themen/gesundheit/gesundheitsversorgung/spitaeler_kliniken/spitalplanung/spitalplanung-2023/beilage_zum_versorgungsbericht.pdf "Beilage zum Versorungsbericht S. 68") einführen.
+
+```{r table_para, echo=FALSE, message=FALSE}
+
+table_para
+
+HTML(
+  '<div>
+<span style="font-weight:bold;font-size:8pt;">
+Hinweise zur Tabelle:<br>
+</span>
+
+<span style="font-size:8pt;">
+<sup>1</sup> NF-Koffer bzw. -Wagen inkl. Defibrillator, die Bezeichnung "Stationen" steht für alle Bettenstationen und alle Behandlungseinheiten.<br>
+Diese Darstellung ist eine vereinfachte Abbildung der SPLG-spezifischen Anforderungen. Um einzelne Aspekte genau zu studieren müssen immer die Origninaldokumente der Kantone konsultiert werden.<br> In Spalten mit mehreren Kantonen können Unterschiede zwischen den Kantonen über das Suchfenster identifiziert werden. Im Falle von St. Gallen z.B. mittels der Eingabe von </span> <span style="font-weight:bold;font-size:8pt;">SG:</span> <span style="font-size:8pt;">.</span>
+</div>'
+)
+
+```
+
+------------------------------------------------------------------------
+
+### Intern.-onkol. Reha
+
+```{r Qualität SPLG Internistisch-onkologisch, echo=FALSE, message=FALSE}
+
+io <- read_excel("data/Anforderungen SPLG/qual_anf_IO_final.xlsx")
+
+
+io_indikatoren <- io %>% 
+  select(starts_with("Kant")) %>% 
+  map_dbl(~sum(is.na(.))) %>% 
+  {(nrow(io)) - .}
+
+io_n <- nrow(io)
+
+table_io <- io %>% 
+  rename(`Kanton <span style="color:#1F8CCD;">ZH</span> (<span style="color:#009A30;">SG</span>/LU)` = `Kantone ZH/SG/LU`) %>% 
+  
+  reactable(wrap = TRUE, 
+            resizable = TRUE, 
+            bordered = TRUE, 
+            sortable = FALSE, 
+            pagination = FALSE, 
+            highlight = TRUE, 
+            searchable = TRUE,
+            height = 500, style = list(fontSize = "12px"),
+            
+            groupBy = c("Anforderung an", "Kategorie"),
+            
+            columns = list(
+              
+              `Anforderung an` = colDef(html = TRUE, minWidth = 190),
+              
+              Kategorie = colDef(html = TRUE, minWidth = 180),
+              
+              Subkategorie = colDef(html = TRUE, minWidth = 180),
+              
+              `Kanton <span style="color:#1F8CCD;">ZH</span> (<span style="color:#009A30;">SG</span>/LU)` = colDef(
+                html = TRUE, 
+                minWidth = 180, 
+                style = list(color = "#1F8CCD")),
+              
+              `Kanton Bern` = colDef(html = TRUE, minWidth = 180, style = list(color = "#E7423F")),
+              
+              `Kanton Thurgau` = colDef(html = TRUE, minWidth = 180, style = list(color = "#0EA84D")),
+              
+              `Kanton Aargau` = colDef(html = TRUE, minWidth = 180, style = list(color = "#248BCC")),
+              
+              `Kantone VS/FR/JU` = colDef(html = TRUE, minWidth = 180),
+              
+              Bemerkung = colDef(html = TRUE)
+              
+            ),
+            
+            theme = reactableTheme(searchInputStyle = list(width = "100%"))
+  )
+
+
+```
+
+In der internistisch-onkologischen Rehabilitation stellten die Kantone insgesamt `r io_n` verschiedene Anforderungskriterien an die Rehakliniken. Am meisten Anforderungen stellte der Kanton Luzern mit `r io_indikatoren[["Kantone ZH/SG/LU"]]` Anforderungskriterien gefolgt von den Kantonen Zürich, St. Gallen und Thurgau mit `r io_indikatoren[["Kantone ZH/SG/LU"]] - 1` Anforderungskriterien. Etwas weniger Anforderungskriterien stellte der Kanton Aargau mit `r io_indikatoren[["Kanton Aargau"]]` Anforderungskriterien und die Kantone Wallis, Jura und Freiburg mit insgesamt `r io_indikatoren[["Kantone VS/FR/JU"]]` verschiedenen Anforderungskriterien. Mit etwas grösserem Abstand folgt der Kanton Bern mit `r io_indikatoren[["Kanton Bern"]]` Anforderungskriterien. Neben dem Kanton Luzern, der in der internistisch-onkologischen Rehabilitation aktuell als einziger Kanton Mindestfallzahlen definiert ([SW!SS REHA Kriterien](https://www.swiss-reha.com/api/rm/Q8U6XT6R9M227Z5 "Qualitäts- und Leistungskriterien für die stationäre Internistisch-onkologische Rehabilitation")), wird zukünftig auch der Kanton Zürich eine Mindestfallzahl definieren und zwar separat für die internistische Rehabilitation (INO1) und die onkologische Rehabilitation (INO2) mit je 100 Patienten die eine Rehabilitationsklinik pro Jahr behandeln muss, um sich für einen Leistungsauftrag in der kardiovaskuläre Rehabilitation zu qualifizieren.
+
+```{r table_io, echo=FALSE, message=FALSE}
+
+table_io
+
+HTML(
+  '<div>
+<span style="font-weight:bold;font-size:8pt;">
+Hinweise zur Tabelle:<br>
+</span>
+
+<span style="font-size:8pt;">
+<sup>1</sup> z.B. nach Bobath, Affolter, spez. Konzepte in Sensomotorik, Kinästhetik, Wahrnehmung und Dysphagiebehandlung.<br>
+<sup>2</sup> NF-Koffer bzw. -Wagen inkl. Defibrillator, die Bezeichnung "Stationen" steht für alle Bettenstationen und alle Behandlungseinheiten.<br>
+Diese Darstellung ist eine vereinfachte Abbildung der SPLG-spezifischen Anforderungen. Um einzelne Aspekte genau zu studieren müssen immer die Origninaldokumente der Kantone konsultiert werden.<br> In Spalten mit mehreren Kantonen können Unterschiede zwischen den Kantonen über das Suchfenster identifiziert werden. Im Falle von St. Gallen z.B. mittels der Eingabe von </span> <span style="font-weight:bold;font-size:8pt;">SG:</span> <span style="font-size:8pt;">.</span>
+</div>'
+)
+
+```
+
+------------------------------------------------------------------------
+
+### Psychosomatische Reha
+
+```{r Qualität SPLG psychosom, echo=FALSE, message=FALSE}
+
+psych <- read_excel("data/Anforderungen SPLG/qual_anf_sozmed_psych_final.xlsx")
+
+psych_indikatoren <- psych %>% 
+  select(starts_with("Kant")) %>% 
+  map_dbl(~sum(is.na(.))) %>% 
+  {(nrow(psych)) - .}
+
+psych_n <- nrow(psych)
+
+
+table_psych <- psych %>% 
+  rename(`Kanton <span style="color:#1F8CCD;">ZH</span> (<span style="color:#009A30;">SG</span>)` = `Kantone ZH/SG/LU`) %>% 
+  reactable(wrap = TRUE, 
+            resizable = TRUE, 
+            bordered = TRUE, 
+            sortable = FALSE, 
+            pagination = FALSE, 
+            highlight = TRUE, 
+            searchable = TRUE,
+            height = 500, style = list(fontSize = "12px"),
+            
+            groupBy = c("Anforderung an", "Kategorie"),
+            
+            columns = list(
+              
+              `Anforderung an` = colDef(html = TRUE, minWidth = 190),
+              
+              Kategorie = colDef(html = TRUE, minWidth = 180),
+              
+              Subkategorie = colDef(html = TRUE, minWidth = 180),
+              
+              `Kanton <span style=\"color:#1F8CCD;\">ZH</span> (<span style=\"color:#009A30;\">SG</span>)` = colDef(html = TRUE, minWidth = 180, style = list(color = "#1F8CCD")),
+              
+              `Kanton Bern` = colDef(html = TRUE, minWidth = 180, style = list(color = "#E7423F")),
+              
+              `Kanton Aargau` = colDef(html = TRUE, minWidth = 180, style = list(color = "#248BCC")),
+              
+              `Kantone VS/FR/JU` = colDef(html = TRUE, minWidth = 180),
+              
+              Bemerkung = colDef(html = TRUE)
+              
+            ),
+            
+            theme = reactableTheme(searchInputStyle = list(width = "100%"))
+  )
+
+```
+
+In der psychosomatischen Rehabilitation stellten die Kantone insgesamt `r psych_n` verschiedene Anforderungskriterien an die Rehakliniken. Am meisten Anforderungen stellten die Kanton Luzern und Aargau mit `r psych_indikatoren[["Kantone ZH/SG/LU"]]` Anforderungskriterien gefolgt von den Kantonen Zürich und St. Gallen mit `r psych_indikatoren[["Kantone ZH/SG/LU"]] - 1` Anforderungskriterien. Etwas weniger Anforderungskriterien stellten die Kantone Wallis, Jura und Freiburg mit insgesamt `r psych_indikatoren[["Kantone VS/FR/JU"]]` verschiedenen Anforderungskriterien. Mit etwas grösserem Abstand folgt der Kanton Bern mit `r psych_indikatoren[["Kanton Bern"]]` Anforderungskriterien. Als einziger Kanton hat Luzern in der psychosomatischen Rehabilitation Mindestfallzahlen definiert ([SW!SS REHA Kriterien](https://www.swiss-reha.com/api/rm/2R3B23Z2QBD6598 "Qualitäts- und Leistungskriterien für die stationäre Psychosomatische Rehabilitation")). Anstelle der psychosomatischen Rehabilitation definiert der Kanton Zürich zukünftig den Leistungsbereich *Somatoforme Störungen und chronische Schmerzen (SOM1)*. Darin werden Patientinnen und Patienten mit Schädigungen der Körperfunktionen sowie Beeinträchtigungen von Aktivitäten und Partizipation mit stationärem Rehabilitationsbedarf aufgrund von komplexen chronischen Schmerzsyndromen oder einer somatoformen Störung (ICD-10 F45) behandelt.
+
+```{r table_psych, echo=FALSE, message=FALSE}
+
+table_psych
+
+HTML(
+  '<div>
+<span style="font-weight:bold;font-size:8pt;">
+Hinweise zur Tabelle:<br>
+</span>
+
+<span style="font-size:8pt;">
+<sup>1</sup> NF-Koffer bzw. -Wagen inkl. Defibrillator, die Bezeichnung "Stationen" steht für alle Bettenstationen und alle Behandlungseinheiten.<br>
+Diese Darstellung ist eine vereinfachte Abbildung der SPLG-spezifischen Anforderungen. Um einzelne Aspekte genau zu studieren müssen immer die Origninaldokumente der Kantone konsultiert werden.<br> In Spalten mit mehreren Kantonen können Unterschiede zwischen den Kantonen über das Suchfenster identifiziert werden. Im Falle von St. Gallen z.B. mittels der Eingabe von </span> <span style="font-weight:bold;font-size:8pt;">SG:</span> <span style="font-size:8pt;">.</span>
+</div>'
+)
+
+
+```
+
+------------------------------------------------------------------------
+
+### Geriatrische Reha
+
+```{r Qualität SPLG geriatrisch, echo=FALSE, message=FALSE}
+
+ger <- read_excel("data/Anforderungen SPLG/qual_anf_geriatrie_final.xlsx")
+
+ger_indikatoren <- ger %>% 
+  select(starts_with("Kant")) %>% 
+  map_dbl(~sum(is.na(.))) %>% 
+  {(nrow(ger)) - .}
+
+ger_n <- nrow(ger)
+
+table_ger <- reactable(ger, 
+          wrap = TRUE, 
+          resizable = TRUE, 
+          bordered = TRUE, 
+          sortable = FALSE, 
+          pagination = FALSE, 
+          highlight = TRUE, 
+          searchable = TRUE,
+          height = 500, style = list(fontSize = "12px"),
+          
+          groupBy = c("Anforderung an", "Kategorie"),
+          
+          columns = list(
+            
+            `Anforderung an` = colDef(html = TRUE, minWidth = 190),
+            
+            Kategorie = colDef(html = TRUE, minWidth = 180),
+            
+            Subkategorie = colDef(html = TRUE, minWidth = 180),
+            
+            `Kanton St. Gallen` = colDef(html = TRUE, minWidth = 180, style = list(color = "#1F8CCD")),
+            
+            `Kanton Thurgau` = colDef(html = TRUE, minWidth = 180, style = list(color = "#0EA84D")),
+            
+            `Kantone BE/LU` = colDef(html = TRUE, minWidth = 180, style = list(color = "#E7423F")),
+            
+            `Kanton Aargau` = colDef(html = TRUE, minWidth = 180, style = list(color = "#248BCC")),
+            
+            `Kantone VS/NE/JU/FR` = colDef(html = TRUE, minWidth = 180),
+            
+            Bemerkung = colDef(html = TRUE)
+            
+          ),
+          
+          theme = reactableTheme(searchInputStyle = list(width = "100%"))
+)
+
+
+```
+
+In der geriatrischen Rehabilitation stellten die Kantone insgesamt `r ger_n` verschiedene Anforderungskriterien an die Rehakliniken. Am meisten Anforderungen stellte der Kanton Thurgau mit `r ger_indikatoren[["Kanton Thurgau"]]` Anforderungskriterien gefolgt vom Kanton St. Gallen mit `r ger_indikatoren[["Kanton St. Gallen"]]` Anforderungskriterien. Etwas weniger Anforderungskriterien stellten die Kantone Wallis, Neuenburg und Freiburg mit insgesamt `r ger_indikatoren[["Kantone VS/NE/JU/FR"]]` verschiedenen Anforderungskriterien sowie der Kanton Jura mit `r ger_indikatoren[["Kantone VS/NE/JU/FR"]] -1` Anforderungskriterien (keine Mindestfallzahlen). Mit etwas grösserem Abstand folgen die Kanton Bern und Luzern mit `r ger_indikatoren[["Kantone BE/LU"]]` Anforderungskriterien und der Kanton Aargau mit `r ger_indikatoren[["Kanton Aargau"]]` Anforderungskriterien. Mit der Spitalplanung 2023 definiert auch der Kanton Zürich eine SPLG \*Geriatrische Rehabilitation (GER)". Für den Querschnittsbereich Geriatrische Rehabilitation müssen alle leistungsspezifischen Qualitätsanforderungen (inkl. Mindestfallzahlen) einer der folgenden Leistungsgruppen erfüllt sein: MSK1, NER1, RKA1, PNR1 oder INO1. Zusätzliche oder weitergehende Qualitätsanforderungen sind in der [Beilage zum Versorungsbericht](https://www.zh.ch/content/dam/zhweb/bilder-dokumente/themen/gesundheit/gesundheitsversorgung/spitaeler_kliniken/spitalplanung/spitalplanung-2023/beilage_zum_versorgungsbericht.pdf) vermerkt.
+
+```{r table_ger, echo=FALSE, message=FALSE}
+
+table_ger
+
+HTML(
+  '<div>
+<span style="font-weight:bold;font-size:8pt;">
+Hinweise zur Tabelle:<br>
+</span>
+
+<span style="font-size:8pt;">
+Diese Darstellung ist eine vereinfachte Abbildung der SPLG-spezifischen Anforderungen. Um einzelne Aspekte genau zu studieren müssen immer die Origninaldokumente der Kantone konsultiert werden.<br> In Spalten mit mehreren Kantonen können Unterschiede zwischen den Kantonen über das Suchfenster identifiziert werden. Im Falle von Neuenburg z.B. mittels der Eingabe von </span> <span style="font-weight:bold;font-size:8pt;">NE:</span> <span style="font-size:8pt;">.</span>
+</div>'
+)
+
+
+```
+
+------------------------------------------------------------------------
+
+### Frühreha
+
+```{r data frühreha, echo=FALSE, message=FALSE}
+
+fruehR <- read_excel("data/Anforderungen SPLG/qual_anf_frühR_final.xlsx")
+
+fruehR_indikatoren <- fruehR %>% 
+  select(starts_with("Kant")) %>% 
+  map_dbl(~sum(is.na(.))) %>% 
+  {(nrow(fruehR)) - .}
+
+fruehR_n <- nrow(fruehR)
+
+table_fruehR <- fruehR %>% 
+  rename(`Kantone <span style="color:#0F05A0;">ZH</span>/<span style="color:#008334;">SG</span>/<span style="color:#0082C7;">LU</span>` = `Kantone ZH/SG/LU`) %>% 
+  reactable(wrap = TRUE, 
+            resizable = TRUE, 
+            bordered = TRUE, 
+            sortable = FALSE, 
+            pagination = FALSE, 
+            highlight = TRUE, 
+            searchable = TRUE,
+            height = 500, style = list(fontSize = "12px"),
+            
+            groupBy = c("Anforderung an", "Kategorie"),
+            
+            columns = list(
+              
+              `Anforderung an` = colDef(html = TRUE, minWidth = 190),
+              
+              Kategorie = colDef(html = TRUE, minWidth = 180),
+              
+              Subkategorie = colDef(html = TRUE, minWidth = 180),
+              
+              `Kantone <span style="color:#0F05A0;">ZH</span>/<span style="color:#008334;">SG</span>/<span style="color:#0082C7;">LU</span>` = colDef(
+                html = TRUE, 
+                minWidth = 180, 
+                style = list(color = "#0F05A0")),
+              
+              `Kanton Thurgau` = colDef(html = TRUE, minWidth = 180, style = list(color = "#0EA84D")),
+              
+              `Kanton Aargau` = colDef(html = TRUE, minWidth = 180, style = list(color = "#248BCC")),
+              
+              Bemerkung = colDef(html = TRUE)
+              
+            ),
+            
+            theme = reactableTheme(searchInputStyle = list(width = "100%"))
+  )
+
+```
+
+In der Frührehabilitation stellten die Kantone insgesamt `r fruehR_n` verschiedene Anforderungskriterien an die Rehakliniken. Am meisten Anforderungen stellte der Kanton Thurgau mit `r fruehR_indikatoren[["Kanton Thurgau"]]` Anforderungskriterien gefolgt den Kantonen Zürich, St. Gallen, Luzern und Aargau mit `r fruehR_indikatoren[["Kantone ZH/SG/LU"]]` Anforderungskriterien.
+
+```{r table_fruehR, echo=FALSE, message=FALSE}
+
+table_fruehR
+
+```
+
+<br />
+
+# Fazit
+
+Trotz verschiedener Anläufe, die Planung der stationären Rehabilitation zu harmonisieren, besteht heute ein Flickwerk aus kantonal unterschiedlichen Leistungsgruppen-Systematiken. Kaum zwei Kantone basieren ihre Leistungsaufträge auf einem gleichen Leistungsgruppen-konzept und wenn doch, dann stellen diese oft unterschiedliche Anforderungen für die Aufnahme auf die Spitalliste. Obwohl nur wenige Kantone die leistungsgruppenspezifischen Anforderungskriterien öffentlich machen, scheint bei denen, die es tun, zumindest bei der Auswahl der Kriterien ein gewisser Konsens zu herrschen. Die kantonalen Unterschiede in den Anforderungskriterien bestehen primär in der Anzahl und der Höhe der definierten Anforderungen. Hier sind die Unterschiede jedoch wieder frappant.
+
+Der vorliegende Bericht stützt sich primär auf frei zugängliche Dokumente. Diese stellen die Kantone in sehr unterschiedlichem Masse zur Verfügung. Die Kantone Aargau, Bern, Thurgau und Zürich tun dies vollständig. Andere Kantone publizieren die nötigen Informationen nur unzureichend, lieferten diese auf Anfrage jedoch nach. Wieder andere Kantone reagierten auf Anfragen nur widerwillig oder gar nicht. Die fehlenden Informationen konnten zum Teil aus Bewerbungsunterlagen der Kantone extrahiert werden, welche einzelne angefragte Rehakliniken für den vorliegenden Bericht zur Verfügung gestellt haben. Mit Blick auf das Öffentlichkeits-Prinzip der Verwaltung mutet das Schweigen gewisser Kantone trotz mehrmaliger Anfragen mindestens etwas seltsam an.
+
+Viele Kantone definieren keine eigenen Anforderungskriterien, sondern nutzten die Grundlagen des Zürcher Leistungsgruppenkonzepts als Basis ihrer eigenen Planung. Gewisse Kantone sehen von einer eigenen Qualitätsprüfung der Rehakliniken ab, wenn diese bereits auf der Spitalliste des Standortkantons vertreten ist. Diese Übernahme von Anforderungskriterien schafft eine gewisse Harmonisierung zwischen Zürich und den tendenziell kleineren (Deutschschweizer) Kantonen, die dieses Modell der Qualitätsprüfung wählen. Da der Kanton Zürich das eigene Leistungsgruppen-Modell aktuell vollständig überarbeitet, bleibt abzuwarten und wird sich noch weisen müssen, ob sich die Kantone weiterhin am Zürcher Modell orientieren werden. Einige Kantone haben bereits mitgeteilt, dass sie dies tun wollen, andere sind, vor allem wegen der neu angedachten Mindestfallzahlen, noch skeptisch.
+
+Obwohl die Anforderungskriterien integraler Bestandteil der kantonalen Evaluationsverfahren sind, spielen bei der Vergabe von Leistungsaufträgen andere Kriterien vermutlich eine gewichtigere Rolle. Die genauen Entscheidungsprozesse sind schwierig nachzuvollziehen, da nur wenige Kantone ihre Evaluationsverfahren veröffentlichen. Aus den Spitalberichten dieser Kantone geht jedoch hervor, dass primär die Wirtschaftlichkeit, die Wohnortnähe, die Versorgungsrelevanz oder bestehende Patientenströme über die Aufnahme oder Nichtaufnahme einer Rehabilitationsklinik auf die Spitalliste entscheiden. Nur selten war die Nichterfüllung der Anforderungskriterien der Grund für eine Nichtberücksichtigung eines Bewerbers. Andererseits gab es Kliniken, die zum Beispiel wegen des Fehlens eines Kaderarztes mit den nötigen Qualifikationen Leistungsaufträge an den Kanton zurückgaben. Analoges trifft auf Kliniken zu, die sich gar nicht erst um einen Spitallistenplatz bewarben, da ["auf Grund der in Zukunft massiv erhöhten Standortanforderungen"](https://www.reha-pflegeklinik.ch/) keine Rehabilitationsleistungen mehr angeboten werden konnten.
+
+Die geringe Auskunftsfreudigkeit der Kantone, der vorzeitige Abbruch eines interkantonalen Projekts zur Harmonisierung der Spitalplanung in der Rehabilitation, das Ausklammern der Rehabilitation in einem Folgeprojekt, um die Erfolgschancen des Projekts zu erhöhen, mehrere Bundesgerichtsentscheide zur Spitalplanung in der Rehabilitation oder die fehlende Empfehlung einer einheitlichen Leistungsgruppensystematik durch die GDK sind Beispiele, die exemplarisch für die Schwierigkeiten in der Planung der stationären Rehabilitation stehen. Trotz dieser Schwierigkeiten ist es für alle Beteiligten wünschenswert, dass die Harmonisierung der Planung in der stationären Rehabilitation weiter vorangetrieben wird. Dabei wäre es wichtig, dass alle Kantone ein Bewerbungsverfahren durchführten und die Evaluationskriterien transparent machten. Damit erhielten die Rehabilitationskliniken gleich lange Spiesse und der Qualitäts-wettbewerb würde gefördert. Krankenversicherer und Rehabilitationskliniken erhalten bessere Anhaltspunkte für ihre Tarifverhandlungen und den Kantonen werden im Falle des Scheiterns ebendieser detailliertere Informationen für die Festlegung der Tarife geliefert. Im besten Fall ergäbe sich sogar das Bild einer übersichtlicheren Rehabilitationslandschaft und eine erhöhte Qualitätstransparenz, von der Versicherte, Patientinnen und Patienten und die Zuweisungsinstanzen profitieren könnten.
+
+
+
+
+# Quellen
+
+Information zu Anforderungen auf kantonalen Websites inkl. Kontaktdaten von zuständigen Personen.
+
+```{r Links, echo=FALSE, message=FALSE}
+
+read_excel("data/Quellen.xlsx", sheet = 2, col_types = "text") %>% 
+  arrange(KT) %>% 
+  mutate(Signatur = replace_na(Signatur, ""),
+         Kontakt = if_else(!is.na(Kontakt), 
+                           cell_spec(x = Kontakt, popover = spec_popover(content = Signatur, title = NULL, position = "right")), 
+                           "")) %>% 
+  select(-Signatur) %>% 
+  replace(is.na(.), "") %>% 
+  
+  kbl(format = "html", escape = FALSE, booktabs = TRUE) %>%
+  kable_styling(font_size = 12) %>% 
+  scroll_box(height = "600px", fixed_thead = TRUE)
+
+```
+
+<br     />
+
+**Laufzeit und Datenerhebungsperiode:** 13.10.2020 bis 31.04.2021 \
+**Letzte Änderung:** `r format(Sys.time())`\
+
+<br />
+
+**Korrespondenzadresse:**
+
+Schweizer Paraplegiker-Forschung\
+Guido A. Zäch Str. 4\
+6207 Nottwil\
+<https://www.paraplegie.ch/spf/de/>
+
+**Verantwortlicher Autor:**
+
+Elias Ronca, PhD
+
+<br />
+
+**Disclaimer -- Haftungsausschluss**
+
+Alle Informationen in diesem Bericht sind nach bestem Wissen und Gewissen zusammengestellt. Es wird jedoch daraufhin hingewiesen, dass keine Haftung für die Richtigkeit, Aktualität und Vollständigkeit übernommen wird. Insbesondere ersetzt dieses Schriftstück nicht die offiziellen Dokumente der Kantone.
